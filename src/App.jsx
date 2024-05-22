@@ -1,24 +1,28 @@
 /** @format */
 
 import React from 'react'
-import { ThemeProvider } from 'styled-components'
-import { GlobalStyle } from './assets/css/theme'
+import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
+import { ThemeProvider as StyledThemeProvider } from 'styled-components'
+import { createAppTheme, GlobalStyle } from './assets/styles/theme'
 
-import { useThemeStore } from './store/themeStore'
+import useThemeStore from './store/themeStore'
 
 import AppRouter from './routes/route'
 import { LanguageSelector } from './components/common'
 
 const App = () => {
-  const { theme, toggleTheme } = useThemeStore();
-  
+  const { theme, toggleTheme } = useThemeStore()
+  const muiTheme = createAppTheme(theme)
+
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <button onClick={toggleTheme}>Toggle Theme</button>
-      <LanguageSelector />
-      <AppRouter />
-    </ThemeProvider>
+    <MuiThemeProvider theme={muiTheme}>
+      <StyledThemeProvider theme={theme}>
+        <GlobalStyle />
+        <button onClick={toggleTheme}>Toggle Theme</button>
+        <LanguageSelector />
+        <AppRouter />
+      </StyledThemeProvider>
+    </MuiThemeProvider>
   )
 }
 

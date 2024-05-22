@@ -1,10 +1,10 @@
 /** @format */
 
 import React from 'react'
-import { useThemeStore } from '../../store/themeStore'
+import seThemeStore from '../../store/themeStore'
 
 const HomePage = () => {
-  const { theme } = useThemeStore()
+  const { theme, toggleTheme } = useThemeStore()
 
   return (
     <div style={{ backgroundColor: theme.bodyBg, color: theme.textColor, padding: '20px' }}>

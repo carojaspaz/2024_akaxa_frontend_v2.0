@@ -3,21 +3,41 @@
 import { create } from 'zustand'
 
 const lightTheme = {
-  bodyBg: '#fff',
-  textColor: '#000',
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#dc004e',
+    },
+    background: {
+      default: '#fff',
+    },
+  },
 }
 
 const darkTheme = {
-  bodyBg: '#000',
-  textColor: '#fff',
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#90caf9',
+    },
+    secondary: {
+      main: '#f48fb1',
+    },
+    background: {
+      default: '#121212',
+    },
+  },
 }
 
 const useThemeStore = create((set) => ({
   theme: lightTheme,
   toggleTheme: () =>
     set((state) => ({
-      theme: state.theme === lightTheme ? darkTheme : lightTheme,
+      theme: state.theme.palette.mode === 'light' ? darkTheme : lightTheme,
     })),
 }))
 
-export { useThemeStore, lightTheme, darkTheme }
+export default useThemeStore
