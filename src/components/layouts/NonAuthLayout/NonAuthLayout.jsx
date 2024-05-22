@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
-const VerticalLayout = ({ children }) => {
+const NonAuthLayout = ({ children }) => {
   let location = useLocation()
   const capitalizeFirstLetter = (string) => {
     return string.charAt(1).toUpperCase() + string.slice(2)
@@ -17,4 +17,4 @@ const VerticalLayout = ({ children }) => {
 }
 
 
-export default VerticalLayout;
+export default NonAuthLayout;
