@@ -1,12 +1,22 @@
 /** @format */
 
-function App() {
+import React from 'react'
+import { ThemeProvider } from 'styled-components'
+import { GlobalStyle } from './assets/css/theme'
+
+import { useThemeStore } from './store/themeStore'
+
+import { HomePage } from './Modules/home'
+
+const App = () => {
+  const { theme, toggleTheme } = useThemeStore();
+  
   return (
-    <>
-      <div>
-        <h1>Hello world</h1>
-      </div>
-    </>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <button onClick={toggleTheme}>Toggle Theme</button>
+      <HomePage />
+    </ThemeProvider>
   )
 }
 
