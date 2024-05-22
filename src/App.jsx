@@ -7,7 +7,7 @@ import { GlobalStyle } from './assets/css/theme'
 import { useThemeStore } from './store/themeStore'
 
 import AppRouter from './routes/route'
-
+import { LanguageSelector } from './components/common'
 
 const App = () => {
   const { theme, toggleTheme } = useThemeStore();
@@ -16,6 +16,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <button onClick={toggleTheme}>Toggle Theme</button>
+      <LanguageSelector />
       <AppRouter />
     </ThemeProvider>
   )

@@ -1,0 +1,8 @@
+{
+  "login": {
+    "title": "Página de Inicio de Sesión",
+    "username": "Nombre de usuario",
+    "password": "Contraseña",
+    "loginButton": "Iniciar Sesión"
+  }
+}
