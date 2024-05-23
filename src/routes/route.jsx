@@ -13,9 +13,6 @@ const AppRouter = () => {
   const isAuthenticated = sessionStorage.getItem('auth')
 
   const getLayoutComponent = (Component) => {
-    console.log('authenticated: ', isAuthenticated)
-    console.log('layout: ', layout)
-    console.log(layout === layouts.VerticalLayout)
     if(!isAuthenticated) return <NonAuthLayout><Component /></NonAuthLayout>
     if(layout === layouts.VerticalLayout) return <VerticalLayout><Component /></VerticalLayout>
     if(layout === layouts.HorizontalLayout) return <HorizontalLayout><Component /></HorizontalLayout>

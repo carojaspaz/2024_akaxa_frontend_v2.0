@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 
+import useAuth from '../../hooks/useAuth'
+
 const CustomButton = styled(Button)`
   margin-top: 20px;
   background-color: ${(props) => props.theme.palette.secondary.main};
@@ -23,18 +25,12 @@ const LoginSchema = Yup.object().shape({
 
 const LoginPage = () => {
   const { t } = useTranslation()
+  const { handleLogin, error } = useAuth()
   const navigate = useNavigate()
 
   const handleSubmit = (values, { setSubmitting, setErrors }) => {
     setSubmitting(true)
-    // Aquí deberías reemplazar esto con una verificación real, por ejemplo, una llamada a una API
-    if (values.username === 'admin@yopmail.com' && values.password === 'password') {
-      sessionStorage.setItem('auth', 'true')
-      setSubmitting(false)
-      navigate('/home') // Cambia a la ruta que quieras redirigir después de un inicio de sesión exitoso
-    } else {
-      setErrors({ password: 'Invalid username or password' })
-    }
+    handleLogin(values.username, values.password)
     setSubmitting(false)
   }
 
