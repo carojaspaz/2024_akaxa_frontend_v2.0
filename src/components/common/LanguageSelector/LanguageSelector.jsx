@@ -3,6 +3,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { setLocalItem } from '../../../utils/storage'
+
 const LanguageSelector = () => {
   const { i18n } = useTranslation()
 

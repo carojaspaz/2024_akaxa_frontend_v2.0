@@ -1,7 +1,8 @@
 /** @format */
 
 import React from 'react'
-import seThemeStore from '../../store/themeStore'
+
+import useThemeStore from '../../store/themeStore'
 
 const HomePage = () => {
   const { theme, toggleTheme } = useThemeStore()
@@ -10,6 +11,7 @@ const HomePage = () => {
     <div style={{ backgroundColor: theme.bodyBg, color: theme.textColor, padding: '20px' }}>
       <h1>Home Page</h1>
       <p>Welcome to the Home Page. This is a simple example using zustand for theme management.</p>
+      <button onClick={toggleTheme}>Toggle Theme</button>
     </div>
   )
 }
