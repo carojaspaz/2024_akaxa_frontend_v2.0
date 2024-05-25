@@ -1,3 +1,9 @@
 /** @format */
 
-export { default as LoginPage } from './LoginPage'
+import LoginPage from './LoginPage'
+import LogoutPage from './LogoutPage'
+
+export { 
+    LoginPage,
+    LogoutPage
+}

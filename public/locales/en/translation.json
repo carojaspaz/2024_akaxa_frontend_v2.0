@@ -1,8 +1,13 @@
 {
   "login": {
     "title": "Login Page",
-    "username": "Username",
+    "email": "Email",
     "password": "Password",
-    "loginButton": "Login"
+    "loginButton": "Login",
+    "logoutButton": "Logout"
+  },
+  "layout":{
+    "home": "Home",
+    "search": "Search..."
   }
 }

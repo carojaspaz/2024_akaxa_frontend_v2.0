@@ -1,17 +1,28 @@
-// src/services/authService.js
-import axios from 'axios';
+/** @format */
 
-import { Config } from '../helpers/config/constants';
+import axios from 'axios'
 
-export const login = async (username, password) => {
+import { Config } from '../helpers/config/constants'
+
+export const login = async (email, password) => {
+  const startTime = Date.now()
   try {
-    const body = {
-        email: username,
-        password: password,
-    }
-    const response = await axios.post(`${Config.urlBase}/user/login`, body);
-    return response.data;
+    const payload = JSON.stringify({ email, password })
+    const response = await axios.post(`${Config.urlBase}/user/login`, payload, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Accept-Language': 'es'
+      }
+    })
+    return response.data
   } catch (error) {
-    throw error;
+    if (error.response) {
+      const { status } = error.response
+      if (status === 403 || status === 404) {
+        throw new Error(error.response.data.message)
+      }
+    }
+    throw new Error('An error occurred')
   }
-};
+}

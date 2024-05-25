@@ -1,8 +1,13 @@
 {
   "login": {
     "title": "Página de Inicio de Sesión",
-    "username": "Nombre de usuario",
+    "email": "Correo Electrónico",
     "password": "Contraseña",
-    "loginButton": "Iniciar Sesión"
+    "loginButton": "Iniciar Sesión",
+    "logoutButton": "Cerrar Sesión"
+  },
+  "layout": {
+    "home": "Inicio",
+    "search": "Buscar..."
   }
 }

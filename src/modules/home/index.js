@@ -1,3 +1,4 @@
 /** @format */
 
-export { default as HomePage } from './HomePage'
+import HomePage from './HomePage'
+export { HomePage }

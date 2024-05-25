@@ -9,7 +9,7 @@ const layouts = {
 }
 
 const useLayoutStore = create((set) => ({
-  layout: layouts.VerticalLayout,
+  layout: layouts.NonAuthLayout,
   setLayout: (newLayout) => set({ layout: newLayout }),
   layouts
 }))

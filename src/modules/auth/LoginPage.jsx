@@ -1,14 +1,15 @@
 /** @format */
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Container, TextField, Button, Typography, Box } from '@mui/material'
+import { Container, TextField, Button, Typography, Box, Snackbar, Alert } from '@mui/material'
 import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 
+import { useNavigate } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
+import useSnackbar from '../../hooks/useSnackbar'
 
 const CustomButton = styled(Button)`
   margin-top: 20px;
@@ -19,7 +20,7 @@ const CustomButton = styled(Button)`
 `
 
 const LoginSchema = Yup.object().shape({
-  username: Yup.string().required('*').email('*'),
+  email: Yup.string().required('*').email('*'),
   password: Yup.string().required('*'),
 })
 
@@ -27,11 +28,27 @@ const LoginPage = () => {
   const { t } = useTranslation()
   const { handleLogin, error } = useAuth()
   const navigate = useNavigate()
+  const { open, message, showSnackbar, handleClose } = useSnackbar()
 
-  const handleSubmit = (values, { setSubmitting, setErrors }) => {
-    setSubmitting(true)
-    handleLogin(values.username, values.password)
-    setSubmitting(false)
+  useEffect(() => {
+    if (error) {
+      showSnackbar(error)
+    }
+  }, [error, showSnackbar])
+
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    try {
+      await handleLogin(values.email, values.password)
+      resetForm()
+    } catch (err) {
+      if (err.response && err.response.data && err.response.data.errors) {
+        setErrors(err.response.data.errors)
+      } else {
+        showSnackbar(err.message || 'An error occurred')
+      }
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -41,11 +58,11 @@ const LoginPage = () => {
           <Typography variant="h4" component="h1" gutterBottom>
             {t('login.title')}
           </Typography>
-          <Formik initialValues={{ username: '', password: '' }} validationSchema={LoginSchema} onSubmit={handleSubmit}>
+          <Formik initialValues={{ email: '', password: '' }} validationSchema={LoginSchema} onSubmit={handleSubmit}>
             {({ isSubmitting }) => (
               <Form>
                 <Box mb={2}>
-                  <Field as={TextField} fullWidth label={t('login.username')} name="username" variant="outlined" error={Boolean(ErrorMessage.name === 'username')} helperText={<ErrorMessage name="username" />} />
+                  <Field as={TextField} fullWidth label={t('login.email')} name="email" variant="outlined" error={Boolean(ErrorMessage.name === 'email')} helperText={<ErrorMessage name="email" />} />
                 </Box>
                 <Box mb={2}>
                   <Field as={TextField} fullWidth label={t('login.password')} type="password" name="password" variant="outlined" error={Boolean(ErrorMessage.name === 'password')} helperText={<ErrorMessage name="password" />} />
@@ -56,6 +73,11 @@ const LoginPage = () => {
               </Form>
             )}
           </Formik>
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+              {message}
+            </Alert>
+          </Snackbar>
         </Box>
       </Container>
     </React.Fragment>
