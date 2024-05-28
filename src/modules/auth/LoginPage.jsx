@@ -1,13 +1,13 @@
 /** @format */
 
 import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Container, TextField, Button, Typography, Box, Snackbar, Alert } from '@mui/material'
 import styled from 'styled-components'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 
-import { useNavigate } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
 import useSnackbar from '../../hooks/useSnackbar'
 
@@ -26,10 +26,16 @@ const LoginSchema = Yup.object().shape({
 
 const LoginPage = () => {
   const { t } = useTranslation()
-  const { handleLogin, error } = useAuth()
-  const navigate = useNavigate()
+  const { handleLogin, error, isAutenticated } = useAuth()
   const { open, message, showSnackbar, handleClose } = useSnackbar()
+  const navigate = useNavigate()
 
+  useEffect(() => {
+    if (isAutenticated) {
+      navigate('/home')
+    }
+  },[isAutenticated, navigate])
+  
   useEffect(() => {
     if (error) {
       showSnackbar(error)
@@ -40,6 +46,7 @@ const LoginPage = () => {
     try {
       await handleLogin(values.email, values.password)
       resetForm()
+      setSubmitting(false)
     } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {
         setErrors(err.response.data.errors)

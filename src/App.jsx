@@ -8,7 +8,7 @@ import { createAppTheme, GlobalStyle } from './assets/styles/theme'
 
 import useThemeStore from './store/themeStore'
 
-import AppRouter from './routes/route'
+import AppRouter from './routes/router'
 
 const App = () => {
   const { theme } = useThemeStore()
