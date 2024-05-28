@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { TextField, Button, Typography, Box, Snackbar, Alert, Stack } from '@mui/material'
+import { Card, TextField, Button, Typography, Box, Snackbar, Alert, Stack } from '@mui/material'
 import { alpha, useTheme } from '@mui/material/styles'
 
 import styled from 'styled-components'
