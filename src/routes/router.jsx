@@ -4,7 +4,6 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { publicRoutes, privateRoutes } from './routeConfig'
 
-import AppRoutePublic from './routePublic'
 import AppRoutePrivate from './routePrivate'
 
 import useLayoutStore from '../store/layoutStore'
@@ -16,6 +15,7 @@ const AppRouter = () => {
     if (layout === layouts.HorizontalLayout) return <HorizontalLayout />
     return <VerticalLayout />
   }
+  
   return (
     <Router>
       <Routes>
@@ -24,7 +24,7 @@ const AppRouter = () => {
         ))}
         {privateRoutes.map((route, index) => (
           <Route key={index} path={route.path} element={<AppRoutePrivate />}>
-            <Route path="" element={route.component} />
+            <Route path="" element={ <VerticalLayout>{route.component}</VerticalLayout> } />
           </Route>
         ))}
       </Routes>
