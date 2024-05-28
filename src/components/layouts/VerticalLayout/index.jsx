@@ -5,11 +5,11 @@ import PropTypes from 'prop-types'
 
 import Box from '@mui/material/Box'
 
-import Nav from './Nav'
+import Nav from  './Nav'
 import Main from './Main'
 import Header from './Header'
 
-export default function DashboardLayout({ children }) {
+export default function VerticalLayout({ children }) {
   const [openNav, setOpenNav] = useState(false)
 
   return (

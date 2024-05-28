@@ -3,11 +3,12 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Container, TextField, Button, Typography, Box, Snackbar, Alert, Stack } from '@mui/material'
+import { TextField, Button, Typography, Box, Snackbar, Alert, Stack } from '@mui/material'
 import { alpha, useTheme } from '@mui/material/styles'
 
 import styled from 'styled-components'
 import { bgGradient } from '../../theme/css'
+import { Logo } from '../../components/common'
 
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
@@ -72,8 +73,20 @@ const LoginPage = () => {
         }),
         height: 1,
       }}>
-      <Container maxWidth="sm">
-        <Stack spacing={3}>
+      <Logo
+        sx={{
+          position: 'fixed',
+          top: { xs: 16, md: 24 },
+          left: { xs: 16, md: 24 },
+        }}
+      />
+      <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
+        <Card
+          sx={{
+            p: 5,
+            width: 1,
+            maxWidth: 420,
+          }}>
           <Typography variant="h4" component="h1" gutterBottom>
             {t('login.title')}
           </Typography>
@@ -93,15 +106,14 @@ const LoginPage = () => {
               </Form>
             )}
           </Formik>
-        </Stack>
-        <Stack spacing={3}>
-          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-              {message}
-            </Alert>
-          </Snackbar>
-        </Stack>
-      </Container>
+        </Card>
+
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+            {message}
+          </Alert>
+        </Snackbar>
+      </Stack>
     </Box>
   )
 }
