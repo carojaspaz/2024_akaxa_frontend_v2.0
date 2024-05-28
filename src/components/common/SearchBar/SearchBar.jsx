@@ -1,46 +1,86 @@
 /** @format */
 
-import { styled, alpha } from '@mui/material/styles'
-import InputBase from '@mui/material/InputBase'
+import { useState } from 'react'
 
-const SearchBar = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
+import Slide from '@mui/material/Slide'
+import Input from '@mui/material/Input'
+import Button from '@mui/material/Button'
+import { styled } from '@mui/material/styles'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import ClickAwayListener from '@mui/material/ClickAwayListener'
+
+import { bgBlur } from '../../../theme/css'
+
+import Iconify from '../Iconify/Iconyfy'
+
+// ----------------------------------------------------------------------
+
+const HEADER_MOBILE = 64
+const HEADER_DESKTOP = 92
+
+const StyledSearchbar = styled('div')(({ theme }) => ({
+  ...bgBlur({
+    color: theme.palette.background.default,
+  }),
+  top: 0,
+  left: 0,
+  zIndex: 99,
   width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}))
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
   display: 'flex',
+  position: 'absolute',
   alignItems: 'center',
-  justifyContent: 'center',
-}))
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
+  height: HEADER_MOBILE,
+  padding: theme.spacing(0, 3),
+  boxShadow: theme.customShadows.z8,
+  [theme.breakpoints.up('md')]: {
+    height: HEADER_DESKTOP,
+    padding: theme.spacing(0, 5),
   },
 }))
 
-export { SearchBar, SearchIconWrapper, StyledInputBase }
+// ----------------------------------------------------------------------
+
+export default function Searchbar() {
+  const [open, setOpen] = useState(false)
+
+  const handleOpen = () => {
+    setOpen(!open)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  return (
+    <ClickAwayListener onClickAway={handleClose}>
+      <div>
+        {!open && (
+          <IconButton onClick={handleOpen}>
+            <Iconify icon="eva:search-fill" />
+          </IconButton>
+        )}
+
+        <Slide direction="down" in={open} mountOnEnter unmountOnExit>
+          <StyledSearchbar>
+            <Input
+              autoFocus
+              fullWidth
+              disableUnderline
+              placeholder="Search…"
+              startAdornment={
+                <InputAdornment position="start">
+                  <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+                </InputAdornment>
+              }
+              sx={{ mr: 1, fontWeight: 'fontWeightBold' }}
+            />
+            <Button variant="contained" onClick={handleClose}>
+              Search
+            </Button>
+          </StyledSearchbar>
+        </Slide>
+      </div>
+    </ClickAwayListener>
+  )
+}
