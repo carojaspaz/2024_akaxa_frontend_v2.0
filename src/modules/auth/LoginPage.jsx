@@ -3,8 +3,12 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Container, TextField, Button, Typography, Box, Snackbar, Alert } from '@mui/material'
+import { Container, TextField, Button, Typography, Box, Snackbar, Alert, Stack } from '@mui/material'
+import { alpha, useTheme } from '@mui/material/styles'
+
 import styled from 'styled-components'
+import { bgGradient } from '../../theme/css'
+
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 
@@ -29,13 +33,14 @@ const LoginPage = () => {
   const { handleLogin, error, isAutenticated } = useAuth()
   const { open, message, showSnackbar, handleClose } = useSnackbar()
   const navigate = useNavigate()
+  const theme = useTheme()
 
   useEffect(() => {
     if (isAutenticated) {
       navigate('/home')
     }
-  },[isAutenticated, navigate])
-  
+  }, [isAutenticated, navigate])
+
   useEffect(() => {
     if (error) {
       showSnackbar(error)
@@ -59,12 +64,20 @@ const LoginPage = () => {
   }
 
   return (
-    <React.Fragment>
+    <Box
+      sx={{
+        ...bgGradient({
+          color: alpha(theme.palette.background.default, 0.9),
+          imgUrl: '/assets/background/overlay_4.jpg',
+        }),
+        height: 1,
+      }}>
       <Container maxWidth="sm">
-        <Box mt={5}>
+        <Stack spacing={3}>
           <Typography variant="h4" component="h1" gutterBottom>
             {t('login.title')}
           </Typography>
+
           <Formik initialValues={{ email: '', password: '' }} validationSchema={LoginSchema} onSubmit={handleSubmit}>
             {({ isSubmitting }) => (
               <Form>
@@ -80,14 +93,16 @@ const LoginPage = () => {
               </Form>
             )}
           </Formik>
+        </Stack>
+        <Stack spacing={3}>
           <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
             <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
               {message}
             </Alert>
           </Snackbar>
-        </Box>
+        </Stack>
       </Container>
-    </React.Fragment>
+    </Box>
   )
 }
 

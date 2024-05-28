@@ -13,13 +13,13 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Toolbar from '@mui/material/Toolbar'
 
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import MenuIcon from '@mui/icons-material/Menu'
 import SearchIcon from '@mui/icons-material/Search'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 
 import { AppBar, Drawer } from './AppBar'
-import Footer from './Footer'
+import Footer from '../../common/Footer/Footer'
 import { SearchBar, SearchIconWrapper, StyledInputBase } from '../../common/SearchBar/SearchBar'
 import ProfileMenu from '../../common/Profile/ProfileMenu'
 
@@ -64,10 +64,7 @@ const VerticalLayout = ({ children }) => {
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
+            <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} />
           </SearchBar>
           <ProfileMenu />
         </Toolbar>
@@ -86,11 +83,11 @@ const VerticalLayout = ({ children }) => {
         </Toolbar>
         <Divider />
       </Drawer>
-    
+
       <Container maxWidth="lg" sx={{ mt: 8 }}>
         {children}
+        <Footer />
       </Container>
-      <Footer />
     </Box>
   )
 }

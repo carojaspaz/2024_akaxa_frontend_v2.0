@@ -1,13 +1,10 @@
 /** @format */
 
 import React from 'react'
+import { Outlet } from 'react-router-dom'
 
-const AppRoutePublic = ({ layout: Layout, component: Component, ...rest }) => {
-  return (
-    <Layout>
-      <Component {...rest} />
-    </Layout>
-  )
+const AppRoutePublic = () => {
+  return <Outlet />
 }
 
 export default AppRoutePublic
