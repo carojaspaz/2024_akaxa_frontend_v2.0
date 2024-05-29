@@ -2,17 +2,26 @@
 
 import React from 'react'
 
-import useThemeStore from '../../store/themeStore'
+import { useTranslation } from 'react-i18next'
+
+import { Card, Container } from '@mui/material'
+
+import { CustomBreadcrumbs } from '../../components/common'
+
 
 const HomePage = () => {
-  const { theme, toggleTheme } = useThemeStore()
+  const { t } = useTranslation()
 
   return (
-    <div style={{ backgroundColor: theme.bodyBg, color: theme.textColor, padding: '20px' }}>
-      <h1>Home Page</h1>
-      <p>Welcome to the Home Page. This is a simple example using zustand for theme management.</p>
-      <button onClick={toggleTheme}>Toggle Theme</button>
-    </div>
+    <div className="page-content">
+          <Container>
+            <CustomBreadcrumbs parent={'Safety & Trust'} child={t('layout.home')} />
+
+            <Card className="bg-soft-secondary">
+              
+            </Card>
+          </Container>
+        </div>
   )
 }
 

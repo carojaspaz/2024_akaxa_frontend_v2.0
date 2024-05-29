@@ -31,17 +31,12 @@ const LoginSchema = Yup.object().shape({
 
 const LoginPage = () => {
   const { t } = useTranslation()
-  const { handleLogin, error, isAutenticated } = useAuth()
-  const { open, message, showSnackbar, handleClose } = useSnackbar()
   const navigate = useNavigate()
+
   const theme = useTheme()
-
-  useEffect(() => {
-    if (isAutenticated) {
-      navigate('/home')
-    }
-  }, [isAutenticated, navigate])
-
+  const { handleLogin, error } = useAuth()
+  const { open, message, showSnackbar, handleClose } = useSnackbar()
+  
   useEffect(() => {
     if (error) {
       showSnackbar(error)
@@ -53,6 +48,7 @@ const LoginPage = () => {
       await handleLogin(values.email, values.password)
       resetForm()
       setSubmitting(false)
+      navigate('/home')
     } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {
         setErrors(err.response.data.errors)
