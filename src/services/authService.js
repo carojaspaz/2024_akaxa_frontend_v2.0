@@ -4,7 +4,7 @@ import axios from 'axios'
 
 import { Config } from '../helpers/config/constants'
 
-export const login = async (email, password) => {
+export const loginService = async (email, password) => {
   const startTime = Date.now()
   try {
     const payload = JSON.stringify({ email, password })

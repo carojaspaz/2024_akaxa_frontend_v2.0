@@ -7,22 +7,18 @@ import Popover from '@mui/material/Popover'
 import MenuItem from '@mui/material/MenuItem'
 import IconButton from '@mui/material/IconButton'
 
-// ----------------------------------------------------------------------
-
 const LANGS = [
-  {
-    value: 'en',
-    label: 'English',
-    icon: '/assets/icons/ic_flag_en.svg',
-  },
   {
     value: 'es',
     label: 'Español',
-    icon: '/assets/icons/ic_flag_de.svg',
+    icon: '/assets/icons/ic_flag_es.jpg',
+  },
+  {
+    value: 'en',
+    label: 'English',
+    icon: '/assets/icons/ic_flag_en.jpg',
   },
 ]
-
-// ----------------------------------------------------------------------
 
 export default function LanguagePopover() {
   const [open, setOpen] = useState(null)
