@@ -9,5 +9,9 @@
   "layout": {
     "home": "Inicio",
     "search": "Buscar..."
+  },
+  "home":{
+    "welcome": "Bienvenid@",
+    "profile": "Ver perfil"
   }
 }

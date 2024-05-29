@@ -5,10 +5,12 @@ import { Navigate } from 'react-router-dom'
 import { LoginPage, LogoutPage } from '../modules/auth'
 import { HomePage } from '../modules/home'
 import { ClientPage } from '../modules/client'
+import { NotFoundPage } from '../modules/common'
 
 const publicRoutes = [
   { path: '/login', component: <LoginPage /> },
   { path: '/logout', component: <LogoutPage /> },
+  { path: '/404', component: <NotFoundPage /> },
 ]
 
 const privateRoutes = [

@@ -1,11 +1,15 @@
 /** @format */
 
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
-import { Card, Grid, Item } from '@mui/material'
-import Tipograpy
+import { Card, Grid, Item, Typography } from '@mui/material'
 
-const Wellcom = () => {
+import useAuth from '../../../hooks/useAuth'
+
+const Welcome = () => {
+  const { t } = useTranslation()
+  const { authState } = useAuth()
   return (
     <>
       <Card >
@@ -22,8 +26,8 @@ const Wellcom = () => {
             <Grid item xs={8}>
                 <Item>
                     <div className="pt-4">
-                {this.props.t('Welcome')}
-                <h6>{this.props.user.fullName}</h6>
+                {this.props.t('welcome')}
+                <h6>{authState.fullName}</h6>
               </div>
                 </Item>
             </Grid>
@@ -41,13 +45,13 @@ const Wellcom = () => {
             </Col>
             <Col sm="8">
               <div className="pt-4">
-                {this.props.t('Welcome')}
-                <h6>{this.props.user.fullName}</h6>
+                {t('home.welcome')}
+                <h6>{authState.fullName}</h6>
               </div>
             </Col>
             <Col sm="2">
               <Link to="/profile/view" color="primary" className="btn btn-primary mt-4 float-right">
-                {this.props.t('Ver Perfil')}
+                {t('home.profile')}
               </Link>
             </Col>
           </Row>
@@ -57,4 +61,4 @@ const Wellcom = () => {
   )
 }
 
-export default Wellcome
+export default Welcome

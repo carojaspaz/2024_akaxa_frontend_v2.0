@@ -9,5 +9,9 @@
   "layout":{
     "home": "Home",
     "search": "Search..."
+  },
+  "home":{
+    "welcome": "Welcome",
+    "profile": "View profile"
   }
 }
