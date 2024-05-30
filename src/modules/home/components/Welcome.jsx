@@ -3,7 +3,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Card, Grid, Item, Typography } from '@mui/material'
+import { Card, CardContent, CardMedia, Grid, Typography } from '@mui/material'
 
 import useAuth from '../../../hooks/useAuth'
 
@@ -12,50 +12,20 @@ const Welcome = () => {
   const { authState } = useAuth()
   return (
     <>
-      <Card >
-        <Grid container spacion={2}>
+      <Card sx={{ minWidth: 345 }}>
+        <CardMedia sx={{ height: 100 }} className="primary-class" image="/assets/images/headers/bg-1.png" title=""></CardMedia>
+        <CardContent className="secondary-class">
+          <Grid container spacing={2}>
             <Grid item xs={10}>
-               <Item><img className="img-fluid" src={'/assets/images/headers/bg-1.png'} alt="Safety&Trust" /></Item>
+              <Typography sx={{padding: 1}} variant="h6" component="h6">
+                  {t('home.welcome')} {authState.fullName}
+              </Typography>
             </Grid>
             <Grid item xs={2}>
-                <Item><img src={profileImg} alt="" className="img-fluid mt-5 pr-4" /></Item>
+              <img src="/assets/images/profile-img.png" alt="" height={48} />
             </Grid>
-            <Grid item xs={2}>
-                <Item><img src={this.props.pic} alt="" /></Item>
-            </Grid>
-            <Grid item xs={8}>
-                <Item>
-                    <div className="pt-4">
-                {this.props.t('welcome')}
-                <h6>{authState.fullName}</h6>
-              </div>
-                </Item>
-            </Grid>
-            <Grid item xs={2}>
-                <Item></Item>
-            </Grid>
-        </Grid>
-        
-        <CardBody className="pt-0 bg-warning">
-          <Row>
-            <Col sm="2">
-              <div className="avatar-lg profile-user-wid">
-                
-              </div>
-            </Col>
-            <Col sm="8">
-              <div className="pt-4">
-                {t('home.welcome')}
-                <h6>{authState.fullName}</h6>
-              </div>
-            </Col>
-            <Col sm="2">
-              <Link to="/profile/view" color="primary" className="btn btn-primary mt-4 float-right">
-                {t('home.profile')}
-              </Link>
-            </Col>
-          </Row>
-        </CardBody>
+          </Grid>
+        </CardContent>
       </Card>
     </>
   )
