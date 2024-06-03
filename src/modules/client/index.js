@@ -1,4 +1,6 @@
 /** @format */
 
 import ClientPage from './ClientPage'
-export { ClientPage }
+import ClientList from './ClientList'
+import ClientAdd from './ClientAdd'
+export { ClientPage, ClientList, ClientAdd }
