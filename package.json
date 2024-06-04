@@ -14,7 +14,7 @@
     "@emotion/styled": "^11.11.5",
     "@faker-js/faker": "^8.4.1",
     "@iconify/react": "^4.1.1",
-    "@mui/icons-material": "^5.15.18",
+    "@mui/icons-material": "^5.15.19",
     "@mui/material": "^5.15.18",
     "@mui/x-data-grid": "^7.5.1",
     "axios": "^1.7.2",

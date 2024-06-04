@@ -2,9 +2,9 @@
 
 import React, { useEffect } from 'react'
 import useThemeStore from '../../store/themeStore'
-import clientList from '../../services/clientService'
 import ClientList from './ClientList'
 import ClientAdd from './ClientAdd';
+
 
 
 function createData(name, calories, fat, carbs, protein) {
@@ -26,7 +26,7 @@ const ClientPage = () => {
   return (
     
     //<ClientAdd />
-    < ClientList/>
+    < ClientList title='Lista de clientes' />
   )
 }
 

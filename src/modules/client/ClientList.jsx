@@ -1,19 +1,25 @@
 /** @format */
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'
+
+import { getAllClients } from '../../services/clientService';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-// import TablePagination from '@mui/material/TablePagination';
+import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import EditIcon from '@mui/icons-material/Edit';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 
 import useThemeStore from '../../store/themeStore'
 import Button from '@mui/material/Button';
-import { Container } from '@mui/material';
+import { Container, Typography } from '@mui/material';
+
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -35,8 +41,32 @@ const rows = [
 ];
 
 
-const ClientList = () => {
+const ClientList = (props) => {
   const { theme, toggleTheme } = useThemeStore()
+  const [clients, setClients] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(()=>{
+    const fetchData = async()=>{
+      setLoading(true);
+      const data = await getAllClients();
+      console.log(JSON.stringify(data))
+      if(data){
+        setClients (data);
+        setError(null)
+      }else{
+        setError('Error fetching client data')
+      }
+      setLoading(false)
+    }
+    fetchData();
+  },[]);
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+
+
+
 
   // const [page, setPage] = React.useState(0);
 
@@ -54,46 +84,55 @@ const ClientList = () => {
   return (
     <Container fixed maxWidth={'lg'}>
       <Grid container spacing={2}>
-        <Grid item xs={8}><h1>Lista de Clientes</h1></Grid>
-        <Grid item xs={4} alignContent={'center'}><Button variant='contained'> Registrar usuario</Button></Grid>
+        <Grid item xs={8}><h1>{props.title}</h1></Grid>
+        <Grid item xs={4} alignContent={'center'}>
+          <Link to="/clients/addClient">
+          <Button  variant='contained'> Registrar usuario</Button>
+          </Link>
+          </Grid>
         <Grid item xs={12}>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <TableCell>ID </TableCell>
-                  <TableCell align="right">Nombre legal</TableCell>
-                  <TableCell align="right">Actividad</TableCell>
-                  <TableCell align="right">Correo electrónico</TableCell>
-                  <TableCell align="right">Estado</TableCell>
-                  <TableCell align="right">Sucursales</TableCell>
-                  <TableCell align="right">Opcion</TableCell>
+                  <TableCell align="center">Nombre legal</TableCell>
+                  <TableCell align="center">Actividad</TableCell>
+                  <TableCell align="center">Correo electrónico</TableCell>
+                  <TableCell align="center">Total Empleados</TableCell> 
+                  <TableCell align="center">Estado</TableCell>
+                  <TableCell align="center">Opcion</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {clients.map((client) => (
                   <TableRow
                     // hover 
                     // role="checkbox" 
                     // tabIndex={-1}
-                    key={row.name}
+                    key={client.id}
                     item
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {row.name}
+                      {client.identification.number}
                     </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.carbs}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
+                    <TableCell align="left">{client.legalName}</TableCell>
+                    <TableCell align="justify">{client.businessActivity}</TableCell>
+                    <TableCell align="center">{client.email}</TableCell>
+                    <TableCell align="center">{client.totalEmployees}</TableCell>
+                    <TableCell align="center">{client.isActive?'Activo':'Inactivo'}</TableCell>
+                    <TableCell align='center'>
+                      <Link to="/clients/clientDetail"><VisibilityIcon/> </Link> 
+                      <Link href="#"><EditIcon/> </Link>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
           
-
+          
         </Grid>
       </Grid>
     </Container>

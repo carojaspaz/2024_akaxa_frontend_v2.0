@@ -26,7 +26,7 @@ const ClientAdd = () => {
         });
     };
     return (
-        <Container maxWidth={md}>
+        <Container>
             <Formik initialValues={{ legalName: '', comercialName: '' }} >
                 <form>
                     <Grid container spacing={4}>
