@@ -27,7 +27,23 @@ const ClientAdd = () => {
     };
     return (
         <Container>
-            <Formik initialValues={{ legalName: '', comercialName: '' }} >
+            <Formik 
+            initialValues={
+                { 
+                legalName: '', 
+                comercialName: '' 
+                }}
+                validate={values => {
+                    const errors = {};
+                    if (!values.legalName) {
+                      errors.legalName = 'Required';
+                    } else if (
+                      !/^[A-Z]+@[A-Z]+\.[A-Z]{2,}$/i.test(values.legalName)
+                    ) {
+                      errors.email = 'Error al escribir el nombre legal del cliente';
+                    }
+                    return errors;
+                  }}>
                 <form>
                     <Grid container spacing={4}>
                         <Grid item xs={12}>
@@ -40,6 +56,7 @@ const ClientAdd = () => {
                             <TextField
                                 label="Nombre legal"
                                 name="legalName"
+                                id='legalName'
                                 fullWidth
                             />
                         </Grid>
@@ -48,11 +65,14 @@ const ClientAdd = () => {
                                 label="Nombre comercial"
                                 name="comercialName"
                                 fullWidth
+                                onChange={handleChange(event)}
                             />
+                            <ErrorMessage name="legalName" component="div" />
                         </Grid>
                         <Grid item xs={6}>
                             <TextField
                                 label="Correo electrónico"
+                                type="email"
                                 name="emailClient"
                                 fullWidth
                             />

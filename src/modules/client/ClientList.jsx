@@ -131,8 +131,6 @@ const ClientList = (props) => {
               </TableBody>
             </Table>
           </TableContainer>
-          
-          
         </Grid>
       </Grid>
     </Container>
