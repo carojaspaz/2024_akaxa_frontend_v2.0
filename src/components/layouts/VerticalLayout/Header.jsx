@@ -13,7 +13,7 @@ import { useResponsive } from '../../../hooks/useResponsive'
 
 import { bgBlur } from '../../../theme/css'
 
-import { AccountPopover, Iconify, LanguagePopover, NotificationsPopover, Searchbar } from '../../common'
+import { AccountPopover, Iconify, LanguagePopover, NotificationsPopover } from '../../common'
 
 import { NAV, HEADER } from './config-layout'
 
@@ -30,7 +30,7 @@ export default function Header({ onOpenNav }) {
         </IconButton>
       )}
 
-      <Searchbar />
+      
 
       <Box sx={{ flexGrow: 1 }} />
 
