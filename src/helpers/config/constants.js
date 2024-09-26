@@ -9,3 +9,8 @@ export const Config = {
   lat: 4,
   lng: -72,
 }
+
+
+export const ErrorMessages = {
+  500: 'Error de sistema intenta mas tarde',
+}

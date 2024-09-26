@@ -1,40 +1,32 @@
 /** @format */
 
-import React from 'react'
-
-import { DataGrid } from '@mui/x-data-grid'
-
+import React, { useEffect } from 'react'
 import useThemeStore from '../../store/themeStore'
+import ClientList from './ClientList'
+import ClientAdd from './ClientAdd';
 
-const columns = [
-  { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'legalName', headerName: 'Nombre Empresa', width: 200 },
-  { field: 'activity', headerName: 'Actividad', width: 700 },
-  { field: 'email', headerName: 'Email', width: 200 },
-  { field: 'status', headerName: 'Estado', width: 130 },
-]
+
+
+function createData(name, calories, fat, carbs, protein) {
+  return { name, calories, fat, carbs, protein };
+}
 
 const rows = [
-  { id: 1, legalName: 'Nombre Legal Empresa 1', activity: 'Comercio al por menor en establecimientos no especializados con surtido com­puesto principalmente por alimentos, bebidas o tabaco.', email: 'empresa1@yopmail.com', status: 'Activo' },
-]
+  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+  createData('Eclair', 262, 16.0, 24, 6.0),
+  createData('Cupcake', 305, 3.7, 67, 4.3),
+  createData('Gingerbread', 356, 16.0, 49, 3.9),
+];
+
 
 const ClientPage = () => {
   const { theme, toggleTheme } = useThemeStore()
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[5, 10]}
-        checkboxSelection
-      />
-    </div>
+    
+    //<ClientAdd />
+    < ClientList title='Lista de clientes' />
   )
 }
 
