@@ -14,30 +14,58 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
-import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
+import Grid from '@mui/material/Unstable_Grid2'; 
 
 import useThemeStore from '../../store/themeStore'
 import Button from '@mui/material/Button';
 import { Container, Typography } from '@mui/material';
 
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
 const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-
+  {
+    id: 1,
+    identification: { number: '12345678' },
+    legalName: 'Empresa Uno',
+    businessActivity: 'Tecnología',
+    email: 'contacto@empresauno.com',
+    totalEmployees: 50,
+    isActive: true,
+  },
+  {
+    id: 2,
+    identification: { number: '87654321' },
+    legalName: 'Empresa Dos',
+    businessActivity: 'Comercio',
+    email: 'contacto@empresados.com',
+    totalEmployees: 20,
+    isActive: false,
+  },
+  {
+    id: 3,
+    identification: { number: '11223344' },
+    legalName: 'Empresa Tres',
+    businessActivity: 'Servicios',
+    email: 'contacto@empresatres.com',
+    totalEmployees: 100,
+    isActive: true,
+  },
+  {
+    id: 4,
+    identification: { number: '44332211' },
+    legalName: 'Empresa Cuatro',
+    businessActivity: 'Construcción',
+    email: 'contacto@empresacuatro.com',
+    totalEmployees: 75,
+    isActive: true,
+  },
+  {
+    id: 5,
+    identification: { number: '55667788' },
+    legalName: 'Empresa Cinco',
+    businessActivity: 'Educación',
+    email: 'contacto@empresacinco.com',
+    totalEmployees: 30,
+    isActive: false,
+  },
 ];
 
 
@@ -50,7 +78,8 @@ const ClientList = (props) => {
   useEffect(()=>{
     const fetchData = async()=>{
       setLoading(true);
-      const data = await getAllClients();
+      //const data = await getAllClients();
+      const data = rows;
       console.log(JSON.stringify(data))
       if(data){
         setClients (data);
