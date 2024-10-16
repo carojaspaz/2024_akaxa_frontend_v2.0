@@ -106,6 +106,46 @@ class CommonService extends BaseService {
       return null
     }
   }
+
+   /**
+   * Método para obtener los municipios de un departamento
+   * @returns {Promise<Array>} - Lista de los municipios de un departamento 
+   */
+   async getMunicipalityStates(country) {
+    try {
+      const response = await fetch(`${Config.urlBase}/countries/states/municipalities/${country}/`, this.paramOptions())
+
+      if (!response.ok) {
+        throw new Error(`HTTP Error status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return data
+    } catch (error) {
+      console.error('Error al obtener los valores segun un parametro:', error)
+      return null
+    }
+  }
+
+  /**
+   * Método para obtener los centros de un municipio
+   * @returns {Promise<Array>} - Lista de centros de un municipio
+   */
+  async getPopulateCenterMunicipality(country) {
+    try {
+      const response = await fetch(`${Config.urlBase}/countries/states/municipalities/populate/${country}/`, this.paramOptions())
+
+      if (!response.ok) {
+        throw new Error(`HTTP Error status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return data
+    } catch (error) {
+      console.error('Error al obtener los valores segun un parametro:', error)
+      return null
+    }
+  }
 }
 
 export const commonService = new CommonService()

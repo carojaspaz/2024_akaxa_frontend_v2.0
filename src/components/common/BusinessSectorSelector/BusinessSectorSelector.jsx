@@ -26,10 +26,10 @@ const BusinessSectorSelector = ({ max }) => {
             <h3>Actividad Económica</h3>
           </Grid>
           <Grid item xs={12}>
-            <Field as={TextField} label="Descripción de la actividad económica" name="economicActivity" fullWidth />
+            <Field as={TextField} label="Descripción de la actividad económica" name="codeCIIU.activity" fullWidth />
           </Grid>
           <Grid item xs={6}>
-            <Field as={TextField} select label="Seleccione el Sector" name="selectSector" fullWidth>
+            <Field as={TextField} select label="Seleccione el Sector" name="codeCIIU.sector" fullWidth>
               <MenuItem value="Seleccione">
                 <em>Seleccione...</em>
               </MenuItem>
@@ -39,14 +39,14 @@ const BusinessSectorSelector = ({ max }) => {
             </Field>
           </Grid>
           <Grid item xs={6}>
-            <Field as={TextField} select label="Seleccione División" name="selectDivision" fullWidth>
+            <Field as={TextField} select label="Seleccione División" name="codeCIIU.division" fullWidth>
               <MenuItem value="Todas">
                 <em>Todas</em>
               </MenuItem>
             </Field>
           </Grid>
           <Grid item xs={6}>
-            <Field as={TextField} select label="Seleccione Subdivisión" name="selectSubDiv" fullWidth>
+            <Field as={TextField} select label="Seleccione Subdivisión" name="codeCIIU.subdivision" fullWidth>
               <MenuItem value="Todas">
                 <em>Todas</em>
               </MenuItem>
@@ -57,7 +57,7 @@ const BusinessSectorSelector = ({ max }) => {
               as={TextField}
               select
               label="Seleccione Actividad"
-              name="selectActivity"
+              name="codeCIIU.activity"
               onChange={(event) => {
                 const selectedValue = event.target.value
                 const selectedOptions = activityOptions.filter((option) => option.value === selectedValue)

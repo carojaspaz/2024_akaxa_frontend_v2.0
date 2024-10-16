@@ -40,6 +40,10 @@ const validationSchema = Yup.object({
   activities: Yup.string().required('Campo requerido'),
   totalEmployees: Yup.number().min(1, 'Debe ser al menos 1 empleado').required('Campo requerido'),
   description: Yup.string().required('Campo requerido'),
+  /*phone: Yup.number().min(1, 'Debe ser al menos 1 número').required('Campo requerido'),
+  contacts: Yup.string().required('Campo requerido'),
+  codeCIIU: Yup.string().required('Campo requerido'),
+  address: Yup.string().required('Campo requerido'),*/
 })
 
 const ClientAdd = () => {
@@ -189,8 +193,12 @@ const ClientAdd = () => {
           typeCompany: '',
           activities: '',
           totalEmployees: '',
+          //phone: '', // nombre de la propiedad name del componente hijo
           description: '',
+          /*contacts: '', // nombre de la propiedad name del componente hijo
+          codeCIIU: '', // nombre de la propiedad name del componente hijo*/
           address: '', // nombre de la propiedad name del componente hijo
+          
         }}
         validationSchema={validationSchema}
         onSubmit={handleValidSubmit}>
@@ -265,7 +273,7 @@ const ClientAdd = () => {
                 <Field as={TextField} label="Total empleados" type="number" name="totalEmployees" fullWidth />
                 <ErrorMessage name="totalEmployees" component="div" />
               </Grid>
-
+              
               <Grid item xs={12}>
                 <Field as={TextField} label="Descripción" name="description" fullWidth />
               </Grid>

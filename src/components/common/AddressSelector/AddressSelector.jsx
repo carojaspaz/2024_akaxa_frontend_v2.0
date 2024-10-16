@@ -16,9 +16,25 @@ const AddressSelector = ({ countries }) => {
       const response = await commonService.getStateCountry(countryValue)
       setDepartments(response)
     }
-    setMunicipalities([])
-    setCenters([])
   }
+
+  const handleDepartmentChange = async (event) => {
+    const departmentValue = event.target.value
+    if (departmentValue !== '') {
+      const response = await commonService.getMunicipalityStates(departmentValue)
+      setMunicipalities(response)
+    }
+  }
+
+  const handleMunicipalityChange = async (event) => {
+    const municipalityValue = event.target.value
+    if (municipalityValue !== '') {
+      const response = await commonService.getPopulateCenterMunicipality(municipalityValue)
+      setCenters(response)
+    }
+  }
+
+  
 
   return (
     <Container>
@@ -39,7 +55,7 @@ const AddressSelector = ({ countries }) => {
           </Field>
         </Grid>
         <Grid item xs={3}>
-          <Field as={TextField} select label="Departamento" name="address.firstPoliticalDivision" fullWidth>
+          <Field as={TextField} select label="Departamento" name="address.firstPoliticalDivision" fullWidth onChange={(event) => handleDepartmentChange(event)}>
             <MenuItem value="">
               <em>Seleccione...</em>
             </MenuItem>
@@ -51,13 +67,13 @@ const AddressSelector = ({ countries }) => {
           </Field>
         </Grid>
         <Grid item xs={3}>
-          <Field as={TextField} select label="Municipio" name="address.secondPoliticalDivision" fullWidth>
+          <Field as={TextField} select label="Municipio" name="address.secondPoliticalDivision" fullWidth onChange={(event) => handleMunicipalityChange(event)}>
             <MenuItem value="">
               <em>Seleccione...</em>
             </MenuItem>
             {municipalities.map((municipality) => (
-              <MenuItem key={municipality.value} value={municipality.value}>
-                {municipality.label}
+              <MenuItem key={municipality.code} value={municipality.code}>
+                {municipality.name}
               </MenuItem>
             ))}
           </Field>
@@ -68,8 +84,8 @@ const AddressSelector = ({ countries }) => {
               <em>Seleccione...</em>
             </MenuItem>
             {centers.map((center) => (
-              <MenuItem key={center.value} value={center.value}>
-                {center.label}
+              <MenuItem key={center.code} value={center.code}>
+                {center.name}
               </MenuItem>
             ))}
           </Field>
