@@ -1,116 +1,110 @@
 /** @format */
 import React, { useState, useEffect } from 'react'
 import { Grid, TextField, Button, MenuItem } from '@mui/material'
-import { Form, FieldArray, Field } from 'formik'
-import useToaster from '../../../helpers/common/toaster'
-import { ToasterTypes, Patterns, TypePhone } from '../../../helpers/config/constants'
 import { useTranslation } from 'react-i18next'
 
-const Phones = ({ max = 4, phonesProp = [{ type: '', number: '' }] }) => {
+// Helpers
+import { ToasterTypes, Patterns, TypePhone } from '../../../helpers/config/constants'
+import useToaster from '../../../helpers/common/toaster'
+
+const Phones = ({ max = 4, phones: initialPhones = [] }) => {
   const { showToaster } = useToaster()
   const { t } = useTranslation()
-  const [phones, setPhones] = useState(phonesProp)
+
+  const [phones, setPhones] = useState([{ type: '', number: '' }])
   const [patterns, setPatterns] = useState([''])
   const [placeHolders, setPlaceHolders] = useState([''])
 
   useEffect(() => {
-    setPhones(phonesProp)
-  }, [phonesProp])
+    if (initialPhones.length) {
+      setPhones(initialPhones)
+    }
+  }, [initialPhones])
 
-  const handleAddPhone = (arrayHelpers) => {
+  const handleAddPhone = () => {
     if (phones.length < max) {
-      arrayHelpers.push({ type: '', number: '' })
+      setPhones([...phones, { type: '', number: '' }])
+      setPatterns([...patterns, ''])
+      setPlaceHolders([...placeHolders, ''])
     } else {
-      showToaster(`${max} Teléfonos máximo`, 'Teléfonos', ToasterTypes.Info)
+      showToaster(`${max} ${t('Teléfonos máximo')}`, 'Teléfonos', ToasterTypes.Info)
     }
   }
 
-  const handleRemovePhone = (index, arrayHelpers) => {
-    if (phones.length >= 1) {
-      arrayHelpers.remove(index)
+  const handleRemovePhone = (index) => {
+    if (phones.length > 1) {
+      const updatedPhones = phones.filter((_, i) => i !== index)
+      const updatedPatterns = patterns.filter((_, i) => i !== index)
+      const updatedPlaceholders = placeHolders.filter((_, i) => i !== index)
+
+      setPhones(updatedPhones)
+      setPatterns(updatedPatterns)
+      setPlaceHolders(updatedPlaceholders)
     }
   }
 
-  const onChangePhoneType = (index, event, setFieldValue) => {
-    let typePhone = ''
-    let placeHolder = ''
-    switch (event.target.value) {
+  const onChangePhone = (index, e) => {
+    const updatedPhones = [...phones]
+    updatedPhones[index].type = e.target.value
+
+    const updatedPatterns = [...patterns]
+    const updatedPlaceholders = [...placeHolders]
+    switch (e.target.value) {
       case TypePhone.movil:
-        typePhone = Patterns.movilPattern
-        placeHolder = Patterns.movilPlaceholder
+        updatedPatterns[index] = Patterns.movilPattern
+        updatedPlaceholders[index] = Patterns.movilPlaceholder
         break
       case TypePhone.land:
-        typePhone = Patterns.landPattern
-        placeHolder = Patterns.landPlaceholder
+        updatedPatterns[index] = Patterns.landPattern
+        updatedPlaceholders[index] = Patterns.landPlaceholder
         break
       default:
-        typePhone = ''
-        placeHolder = ''
+        updatedPatterns[index] = ''
+        updatedPlaceholders[index] = ''
         break
     }
 
-    setFieldValue(`phones[${index}].number`, '')
-    setPatterns((prev) => {
-      const updatedPatterns = [...prev]
-      updatedPatterns[index] = typePhone
-      return updatedPatterns
-    })
-    setPlaceHolders((prev) => {
-      const updatedPlaceholders = [...prev]
-      updatedPlaceholders[index] = placeHolder
-      return updatedPlaceholders
-    })
+    setPhones(updatedPhones)
+    setPatterns(updatedPatterns)
+    setPlaceHolders(updatedPlaceholders)
+  }
+
+  const onChangeNumber = (index, e) => {
+    const updatedPhones = [...phones]
+    updatedPhones[index].number = e.target.value
+    setPhones(updatedPhones)
   }
 
   return (
-    <Container>
-      <Form>
-        <FieldArray
-          name="phones"
-          render={(arrayHelpers) => (
-            <div>
-              {values.phones.map((phone, index) => (
-                <Grid container spacing={2} key={index}>
-                  <Grid item xs={5}>
-                    <Field
-                      name={`phones[${index}].type`}
-                      as={TextField}
-                      select
-                      label={t('Type')}
-                      fullWidth
-                      onChange={(e) => {
-                        setFieldValue(`phones[${index}].type`, e.target.value)
-                        onChangePhoneType(index, e, setFieldValue)
-                      }}
-                      value={phone.type}>
-                      <MenuItem value="">{t('Seleccione...')}</MenuItem>
-                      <MenuItem value={TypePhone.movil}>{t('Movil')}</MenuItem>
-                      <MenuItem value={TypePhone.land}>{t('Land')}</MenuItem>
-                    </Field>
-                  </Grid>
-
-                  <Grid item xs={4}>
-                    <Field name={`phones[${index}].number`} as={TextField} label={t('Number')} placeholder={placeHolders[index]} pattern={patterns[index]} fullWidth value={phone.number} />
-                  </Grid>
-
-                  <Grid item xs={3}>
-                    {index > 0 ? (
-                      <Button type="button" onClick={() => handleRemovePhone(index, arrayHelpers)} variant="contained" color="secondary">
-                        {t('Remove')}
-                      </Button>
-                    ) : (
-                      <Button type="button" onClick={() => handleAddPhone(arrayHelpers)} variant="contained" color="primary">
-                        {t('Add')}
-                      </Button>
-                    )}
-                  </Grid>
-                </Grid>
-              ))}
-            </div>
-          )}
-        />
-      </Form>
-    </Container>
+    <div>
+      {phones.map((phone, ix) => (
+        <Grid container spacing={2} key={`phones-${ix}`}>
+          <Grid item sm={5}>
+            <TextField name={`phones[${ix}].type`} label="Tipo" value={phone.type} onChange={(e) => onChangePhone(ix, e)} select required fullWidth>
+              <MenuItem value="">{t('Seleccione...')}</MenuItem>
+              <MenuItem value={TypePhone.movil}>{t('Movil')}</MenuItem>
+              <MenuItem value={TypePhone.land}>{t('Land')}</MenuItem>
+            </TextField>
+          </Grid>
+          <Grid item sm={4}>
+            <TextField name={`phones[${ix}].number`} label="Número" value={phone.number} onChange={(e) => onChangeNumber(ix, e)} type="number" placeholder={placeHolders[ix]} pattern={patterns[ix]} required fullWidth />
+          </Grid>
+          <Grid item sm={3}>
+            {ix > 0 ? (
+              <Button onClick={() => handleRemovePhone(ix)} variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+                -
+                <i className="dripicons-trash" />
+              </Button>
+            ) : (
+              <Button onClick={handleAddPhone} variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+                +
+                <i className="dripicons-plus" />
+              </Button>
+            )}
+          </Grid>
+        </Grid>
+      ))}
+    </div>
   )
 }
 

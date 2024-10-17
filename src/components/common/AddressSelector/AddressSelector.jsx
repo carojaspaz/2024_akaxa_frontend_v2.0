@@ -2,10 +2,11 @@
 
 import React, { useState } from 'react'
 import { TextField, Grid, MenuItem, Container } from '@mui/material'
-import { Field } from 'formik'
+import { Field, useFormikContext } from 'formik'
 import { commonService } from '../../../services/commonService'
 
 const AddressSelector = ({ countries }) => {
+  const { setFieldValue } = useFormikContext()
   const [departments, setDepartments] = useState([])
   const [municipalities, setMunicipalities] = useState([])
   const [centers, setCenters] = useState([])
@@ -15,6 +16,11 @@ const AddressSelector = ({ countries }) => {
     if (countryValue !== '') {
       const response = await commonService.getStateCountry(countryValue)
       setDepartments(response)
+      setFieldValue('address.country', countryValue)
+      setFieldValue('address.firstPoliticalDivision', '')
+      setFieldValue('address.secondPoliticalDivision', '')
+      setMunicipalities([])
+      setCenters([])
     }
   }
 
@@ -23,6 +29,9 @@ const AddressSelector = ({ countries }) => {
     if (departmentValue !== '') {
       const response = await commonService.getMunicipalityStates(departmentValue)
       setMunicipalities(response)
+      setFieldValue('address.firstPoliticalDivision', departmentValue)
+      setFieldValue('address.secondPoliticalDivision', '')
+      setCenters([])
     }
   }
 
@@ -31,10 +40,9 @@ const AddressSelector = ({ countries }) => {
     if (municipalityValue !== '') {
       const response = await commonService.getPopulateCenterMunicipality(municipalityValue)
       setCenters(response)
+      setFieldValue('address.secondPoliticalDivision', municipalityValue)
     }
   }
-
-  
 
   return (
     <Container>
@@ -43,7 +51,7 @@ const AddressSelector = ({ countries }) => {
           <h3>Ubicación Geográfica</h3>
         </Grid>
         <Grid item xs={3}>
-          <Field as={TextField} select label="País" name="address.country" fullWidth onChange={(event) => handleCountryChange(event)}>
+          <Field as={TextField} select label="País" name="address.country" fullWidth onChange={handleCountryChange}>
             <MenuItem value="">
               <em>Seleccione...</em>
             </MenuItem>
@@ -55,7 +63,7 @@ const AddressSelector = ({ countries }) => {
           </Field>
         </Grid>
         <Grid item xs={3}>
-          <Field as={TextField} select label="Departamento" name="address.firstPoliticalDivision" fullWidth onChange={(event) => handleDepartmentChange(event)}>
+          <Field as={TextField} select label="Departamento" name="address.firstPoliticalDivision" fullWidth onChange={handleDepartmentChange}>
             <MenuItem value="">
               <em>Seleccione...</em>
             </MenuItem>
@@ -67,7 +75,7 @@ const AddressSelector = ({ countries }) => {
           </Field>
         </Grid>
         <Grid item xs={3}>
-          <Field as={TextField} select label="Municipio" name="address.secondPoliticalDivision" fullWidth onChange={(event) => handleMunicipalityChange(event)}>
+          <Field as={TextField} select label="Municipio" name="address.secondPoliticalDivision" fullWidth onChange={handleMunicipalityChange}>
             <MenuItem value="">
               <em>Seleccione...</em>
             </MenuItem>
@@ -97,11 +105,11 @@ const AddressSelector = ({ countries }) => {
           <Field as={TextField} label="Descripción geográfica" name="address.description" fullWidth />
         </Grid>
 
-        <Grid item xs={12}>
-          <Field as={TextField} label="latitude" hidden name="address.latitude" value="1.2131716" fullWidth />
+        <Grid item xs={6}>
+          <Field as={TextField} label="Latitud" hidden name="address.latitude" value="1.2131716" fullWidth />
         </Grid>
-        <Grid item xs={12}>
-          <Field as={TextField} label="longitude" hidden name="address.longitude" value="-77.285516" fullWidth />
+        <Grid item xs={6}>
+          <Field as={TextField} label="Longitud" hidden name="address.longitude" value="-77.285516" fullWidth />
         </Grid>
       </Grid>
     </Container>

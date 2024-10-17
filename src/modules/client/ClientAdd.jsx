@@ -13,22 +13,15 @@ import { useTranslation } from 'react-i18next'
 //import Breadcrumbs from '../../components/Common/Breadcrumbs';
 
 // Custom components
-import BusinessSectorSelector from '../../components/common/BusinessSectorSelector/BusinessSectorSelector'
+//import BusinessSectorSelector from '../../components/common/BusinessSectorSelector/BusinessSectorSelector'
 import AddressSelector from '../../components/common/AddressSelector/AddressSelector'
-import ContactClient from '../../components/common/ContactClient/ContactClient'
+//import ContactClient from '../../components/common/ContactClient/ContactClient'
 import Phones from '../../components/common/Phones/Phones'
 
 // Services
 import { clientService } from '../../services/clientService'
 import { commonService } from '../../services/commonService.js'
 //
-
-const countries = [
-  { value: 'USA', label: 'United States' },
-  { value: 'CAN', label: 'Canada' },
-  { value: 'MEX', label: 'Mexico' },
-  { value: 'COL', label: 'Colombia' },
-]
 
 const validationSchema = Yup.object({
   legalName: Yup.string().required('Campo requerido'),
@@ -40,10 +33,6 @@ const validationSchema = Yup.object({
   activities: Yup.string().required('Campo requerido'),
   totalEmployees: Yup.number().min(1, 'Debe ser al menos 1 empleado').required('Campo requerido'),
   description: Yup.string().required('Campo requerido'),
-  /*phone: Yup.number().min(1, 'Debe ser al menos 1 número').required('Campo requerido'),
-  contacts: Yup.string().required('Campo requerido'),
-  codeCIIU: Yup.string().required('Campo requerido'),
-  address: Yup.string().required('Campo requerido'),*/
 })
 
 const ClientAdd = () => {
@@ -117,6 +106,7 @@ const ClientAdd = () => {
   }
 
   const onChangeActivity = (selectedOptions) => {
+    console.log(selectedOptions)
     if (selectedOptions) {
       const todo = selectedOptions.find((i) => i.value === 'TODO')
       if (todo) {
@@ -193,12 +183,23 @@ const ClientAdd = () => {
           typeCompany: '',
           activities: '',
           totalEmployees: '',
-          //phone: '', // nombre de la propiedad name del componente hijo
+          phones: {
+            type: '',
+            number: '',
+          },
           description: '',
-          /*contacts: '', // nombre de la propiedad name del componente hijo
-          codeCIIU: '', // nombre de la propiedad name del componente hijo*/
-          address: '', // nombre de la propiedad name del componente hijo
-          
+          //contacts: '', // nombre de la propiedad name del componente hijo
+          //codeCIIU: '', // nombre de la propiedad name del componente hijo
+          address: {
+            country: '',
+            firstPoliticalDivision: '',
+            secondPoliticalDivision: '',
+            thirdPoliticalDivision: '',
+            address: '',
+            description: '',
+            latitude: '',
+            longitude: '',
+          },
         }}
         validationSchema={validationSchema}
         onSubmit={handleValidSubmit}>
@@ -267,13 +268,19 @@ const ClientAdd = () => {
                 <ErrorMessage name="activities" component="div" />
               </Grid>
               <Grid item xs={2}>
-                <Button variant="outlined">Agregar área</Button>
+                <Button variant="contained" color="primary" sx={{ mt: 2 }}>
+                  Agregar área
+                </Button>
               </Grid>
               <Grid item xs={6}>
                 <Field as={TextField} label="Total empleados" type="number" name="totalEmployees" fullWidth />
                 <ErrorMessage name="totalEmployees" component="div" />
               </Grid>
-              
+
+              <Grid item xs={6}>
+                <Phones name="phones" max={2} />
+              </Grid>
+
               <Grid item xs={12}>
                 <Field as={TextField} label="Descripción" name="description" fullWidth />
               </Grid>
