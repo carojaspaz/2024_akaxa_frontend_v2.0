@@ -13,9 +13,9 @@ import { useTranslation } from 'react-i18next'
 //import Breadcrumbs from '../../components/Common/Breadcrumbs';
 
 // Custom components
-//import BusinessSectorSelector from '../../components/common/BusinessSectorSelector/BusinessSectorSelector'
+import BusinessSectorSelector from '../../components/common/BusinessSectorSelector/BusinessSectorSelector'
 import AddressSelector from '../../components/common/AddressSelector/AddressSelector'
-//import ContactClient from '../../components/common/ContactClient/ContactClient'
+import ContactClient from '../../components/common/ContactClient/ContactClient'
 import Phones from '../../components/common/Phones/Phones'
 
 // Services
@@ -27,10 +27,9 @@ const validationSchema = Yup.object({
   legalName: Yup.string().required('Campo requerido'),
   businessName: Yup.string().required('Campo requerido'),
   email: Yup.string().email('Correo inválido').required('Campo requerido'),
-  typeDNI: Yup.string().required('Seleccione una opción'),
-  numberDNI: Yup.string().required('Campo requerido'),
+  identification: Yup.string().required('Seleccione una opción'),
   typeCompany: Yup.string().required('Campo requerido'),
-  activities: Yup.string().required('Campo requerido'),
+  //activities: Yup.string().required('Campo requerido'),
   totalEmployees: Yup.number().min(1, 'Debe ser al menos 1 empleado').required('Campo requerido'),
   description: Yup.string().required('Campo requerido'),
 })
@@ -45,8 +44,6 @@ const ClientAdd = () => {
   const [activities, setActivities] = useState([])
   const [countriesOptions, setCountriesOptions] = useState([])
   const [companyOptions, setCompanyOptions] = useState([])
-  //const [activityValues, setActivityValues] = useState([])
-  //const [enterpriseTypes, setEnterpriseTypes] = useState([])
   const { t } = useTranslation()
   const formRef = useRef(null)
 
@@ -139,33 +136,30 @@ const ClientAdd = () => {
       toggleModal()
     }
   }
-
-  const handleValidSubmit = async (values, event) => {
-    //if (activities.length > 0) {
-    //values.activities = activities
-    const body = JSON.stringify(values)
-    console.log(body)
-    const response = await clientService.postClient(body)
-    console.log(response)
-    //const response = null;
-    const { message } = response
-    if (message) {
-      ShowToaster(message, 'Error', ToasterTypes.Error)
-    } else {
-      ShowToaster(t('Create Client Success'), t('Create Client'), ToasterTypes.Success)
-      const profile = {
-        firstName: values.legalName,
-        lastName: values.businessName,
-        identification: values.identification,
-        //phones: values.phones,
-        email: values.email,
+  
+  const handleValidSubmit = async (values, { resetForm }) => {
+    if (activities.length > 0) {
+      values.activities = activities
+      const body = JSON.stringify(values)
+      const response = await clientService.postClient(body)
+      const { message } = response
+      if (message) {
+        //showToaster(message, 'Error', ToasterTypes.Error)
+      } else {
+        //showToaster('Create Client Success', 'Create Client', ToasterTypes.Success)
+        const profile = {
+          firstName: values.legalName,
+          lastName: values.businessName,
+          identification: values.identification,
+          phones: values.phones,
+          email: values.email,
+        }
+        //await clientService.postProfileClient(response, JSON.stringify(profile)) - Revisar error de Backend
+        resetForm()
       }
-      await clientService.postProfileClient(response, JSON.stringify(profile))
-      formRef.current.reset()
+    } else {
+      //showToaster('Debe escoger al menos una actividad.', 'Error', ToasterTypes.Error)
     }
-    /*} else {
-      ShowToaster('Debe escoger al menos una actividad.', 'Error', ToasterTypes.Error)
-    }*/
   }
 
   //-----------------------------------------------------------
@@ -173,23 +167,47 @@ const ClientAdd = () => {
   return (
     <Container>
       <Formik
-        innerRef={formRef}
         initialValues={{
           legalName: '',
           businessName: '',
           email: '',
-          typeDNI: '',
-          numberDNI: '',
-          typeCompany: '',
-          activities: '',
-          totalEmployees: '',
-          phones: {
+          identification: {
             type: '',
             number: '',
           },
+          typeCompany: '',
+          activities: [
+            {
+              type: 'PROD',
+              isSelected: true,
+            },
+          ],
+          totalEmployees: '',
+          phones: [
+            {
+              type: '',
+              number: '',
+            },
+          ],
           description: '',
-          //contacts: '', // nombre de la propiedad name del componente hijo
-          //codeCIIU: '', // nombre de la propiedad name del componente hijo
+          contacts: [
+            {
+              name: '',
+              position: '',
+              email: '',
+              phone: {
+                type: '',
+                number: '',
+              },
+            },
+          ],
+          codeCIIU: {
+            sector: '',
+            division: '',
+            subdivision: '',
+            activity: '',
+            activityName: '',
+          },
           address: {
             country: '',
             firstPoliticalDivision: '',
@@ -197,11 +215,11 @@ const ClientAdd = () => {
             thirdPoliticalDivision: '',
             address: '',
             description: '',
-            latitude: '',
-            longitude: '',
+            latitude: 1.2131716,
+            longitude: -77.285516,
           },
         }}
-        validationSchema={validationSchema}
+        //validationSchema={validationSchema}
         onSubmit={handleValidSubmit}>
         {() => (
           <Form>
@@ -225,7 +243,7 @@ const ClientAdd = () => {
                 <ErrorMessage name="email" component="div" />
               </Grid>
               <Grid item xs={3}>
-                <Field as={TextField} select label="Tipo documento" name="typeDNI" fullWidth>
+                <Field as={TextField} select label="Tipo documento" name="identification.type" fullWidth>
                   <MenuItem value="Seleccione">
                     <em>Seleccione...</em>
                   </MenuItem>
@@ -235,11 +253,11 @@ const ClientAdd = () => {
                     </MenuItem>
                   ))}
                 </Field>
-                <ErrorMessage name="typeDNI" component="div" />
+                <ErrorMessage name="identification.type" component="div" />
               </Grid>
               <Grid item xs={3}>
-                <Field as={TextField} label="Número de documento" name="numberDNI" fullWidth />
-                <ErrorMessage name="numberDNI" component="div" />
+                <Field as={TextField} label="Número de documento" name="identification.number" fullWidth />
+                <ErrorMessage name="identification.number" component="div" />
               </Grid>
               <Grid item xs={6}>
                 <Field as={TextField} select label="Tipo de empresa" name="typeCompany" fullWidth>
@@ -254,7 +272,7 @@ const ClientAdd = () => {
                 </Field>
                 <ErrorMessage name="typeCompany" component="div" />
               </Grid>
-              <Grid item xs={4}>
+              {/*<Grid item xs={4}>
                 <Field as={TextField} select label="Áreas" name="activities" fullWidth>
                   <MenuItem value="Seleccione">
                     <em>Seleccione...</em>
@@ -271,7 +289,7 @@ const ClientAdd = () => {
                 <Button variant="contained" color="primary" sx={{ mt: 2 }}>
                   Agregar área
                 </Button>
-              </Grid>
+              </Grid>*/}
               <Grid item xs={6}>
                 <Field as={TextField} label="Total empleados" type="number" name="totalEmployees" fullWidth />
                 <ErrorMessage name="totalEmployees" component="div" />
@@ -283,6 +301,14 @@ const ClientAdd = () => {
 
               <Grid item xs={12}>
                 <Field as={TextField} label="Descripción" name="description" fullWidth />
+              </Grid>
+
+              <Grid item xs={12}>
+                <ContactClient name="contacts" max={2} />
+              </Grid>
+
+              <Grid item xs={12}>
+                <BusinessSectorSelector name="codeCIIU" />
               </Grid>
 
               <Grid item xs={12}>

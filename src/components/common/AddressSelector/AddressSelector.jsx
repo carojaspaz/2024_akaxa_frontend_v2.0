@@ -45,74 +45,72 @@ const AddressSelector = ({ countries }) => {
   }
 
   return (
-    <Container>
-      <Grid container spacing={4}>
-        <Grid item xs={12}>
-          <h3>Ubicación Geográfica</h3>
-        </Grid>
-        <Grid item xs={3}>
-          <Field as={TextField} select label="País" name="address.country" fullWidth onChange={handleCountryChange}>
-            <MenuItem value="">
-              <em>Seleccione...</em>
-            </MenuItem>
-            {countries.map((country) => (
-              <MenuItem key={country.value} value={country.value}>
-                {country.label}
-              </MenuItem>
-            ))}
-          </Field>
-        </Grid>
-        <Grid item xs={3}>
-          <Field as={TextField} select label="Departamento" name="address.firstPoliticalDivision" fullWidth onChange={handleDepartmentChange}>
-            <MenuItem value="">
-              <em>Seleccione...</em>
-            </MenuItem>
-            {departments.map((department) => (
-              <MenuItem key={department.code} value={department.code}>
-                {department.name}
-              </MenuItem>
-            ))}
-          </Field>
-        </Grid>
-        <Grid item xs={3}>
-          <Field as={TextField} select label="Municipio" name="address.secondPoliticalDivision" fullWidth onChange={handleMunicipalityChange}>
-            <MenuItem value="">
-              <em>Seleccione...</em>
-            </MenuItem>
-            {municipalities.map((municipality) => (
-              <MenuItem key={municipality.code} value={municipality.code}>
-                {municipality.name}
-              </MenuItem>
-            ))}
-          </Field>
-        </Grid>
-        <Grid item xs={3}>
-          <Field as={TextField} select label="Centro" name="address.thirdPoliticalDivision" fullWidth>
-            <MenuItem value="">
-              <em>Seleccione...</em>
-            </MenuItem>
-            {centers.map((center) => (
-              <MenuItem key={center.code} value={center.code}>
-                {center.name}
-              </MenuItem>
-            ))}
-          </Field>
-        </Grid>
-        <Grid item xs={12}>
-          <Field as={TextField} label="Dirección" name="address.address" fullWidth />
-        </Grid>
-        <Grid item xs={12}>
-          <Field as={TextField} label="Descripción geográfica" name="address.description" fullWidth />
-        </Grid>
-
-        <Grid item xs={6}>
-          <Field as={TextField} label="Latitud" hidden name="address.latitude" value="1.2131716" fullWidth />
-        </Grid>
-        <Grid item xs={6}>
-          <Field as={TextField} label="Longitud" hidden name="address.longitude" value="-77.285516" fullWidth />
-        </Grid>
+    <Grid container spacing={1}>
+      <Grid item xs={12}>
+        <h3>Ubicación Geográfica</h3>
       </Grid>
-    </Container>
+      <Grid item xs={3}>
+        <Field as={TextField} select label="País" name="address.country" fullWidth onChange={handleCountryChange}>
+          <MenuItem value="">
+            <em>Seleccione...</em>
+          </MenuItem>
+          {countries.map((country) => (
+            <MenuItem key={country.value} value={country.value}>
+              {country.label}
+            </MenuItem>
+          ))}
+        </Field>
+      </Grid>
+      <Grid item xs={3}>
+        <Field as={TextField} select label="Departamento" name="address.firstPoliticalDivision" fullWidth onChange={handleDepartmentChange}>
+          <MenuItem value="">
+            <em>Seleccione...</em>
+          </MenuItem>
+          {departments.map((department) => (
+            <MenuItem key={department.code} value={department.code}>
+              {department.name}
+            </MenuItem>
+          ))}
+        </Field>
+      </Grid>
+      <Grid item xs={3}>
+        <Field as={TextField} select label="Municipio" name="address.secondPoliticalDivision" fullWidth onChange={handleMunicipalityChange}>
+          <MenuItem value="">
+            <em>Seleccione...</em>
+          </MenuItem>
+          {municipalities.map((municipality) => (
+            <MenuItem key={municipality.code} value={municipality.code}>
+              {municipality.name}
+            </MenuItem>
+          ))}
+        </Field>
+      </Grid>
+      <Grid item xs={3}>
+        <Field as={TextField} select label="Centro" name="address.thirdPoliticalDivision" fullWidth>
+          <MenuItem value="">
+            <em>Seleccione...</em>
+          </MenuItem>
+          {centers.map((center) => (
+            <MenuItem key={center.code} value={center.code}>
+              {center.name}
+            </MenuItem>
+          ))}
+        </Field>
+      </Grid>
+      <Grid item xs={12}>
+        <Field as={TextField} label="Dirección" name="address.address" fullWidth />
+      </Grid>
+      <Grid item xs={12}>
+        <Field as={TextField} label="Descripción geográfica" name="address.description" fullWidth />
+      </Grid>
+
+      <Grid item xs={6}>
+        <Field as={TextField} label="Latitud" hidden name="address.latitude" value="1.2131716" fullWidth />
+      </Grid>
+      <Grid item xs={6}>
+        <Field as={TextField} label="Longitud" hidden name="address.longitude" value="-77.285516" fullWidth />
+      </Grid>
+    </Grid>
   )
 }
 

@@ -2,104 +2,130 @@
 
 const authData = JSON.parse(sessionStorage.getItem('auth'))
 //const token = authData.token;
-const token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVydXNlckBzYWZldHludHJ1c3QuY29tIiwidXNlcm5hbWUiOiJtYXN0ZXIiLCJyb2xlIjoiU3VwZXJBZG1pbiIsImV4cGlyYXRpb24iOiIyMDI0LTExLTA4VDIzOjU5OjU5Ljk5OVoiLCJpYXQiOjE3Mjg0OTk5MTd9.EueGEITQPcgIotrSk5CtuRWq-uOLbj25Jm6h9byhA40'
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVydXNlckBzYWZldHludHJ1c3QuY29tIiwidXNlcm5hbWUiOiJtYXN0ZXIiLCJyb2xlIjoiU3VwZXJBZG1pbiIsImV4cGlyYXRpb24iOiIyMDI0LTExLTE3VDIzOjU5OjU5Ljk5OVoiLCJpYXQiOjE3MjkyODE4Mjh9.-_qXE2wh-Sw-RU9HC9j53eU8n6FwaGyYX_KI6bdqdOI'
 
 class BaseService {
   constructor() {
     this.language = localStorage.getItem('i18nextLng') ?? 'en'
   }
 
-  paramOptions = () => ({
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Accept-Language': 'en',
-    },
-  })
+  paramOptions = () => {
+    const options = {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Accept-Language': 'en',
+      },
+    }
+    return options
+  }
 
-  optionsGet = () => ({
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Accept-Language': this.language,
-      Authorization: `${token}`,
-    },
-  })
+  optionsGet = () => {
+    const options = {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Accept-Language': this.language,
+        Authorization: `${token}`
+      },
+    }
+    return options
+  }
 
-  optionSimpleGet = () => ({
-    method: 'GET',
-    headers: {
-      Accept: '*/*',
-    },
-  })
+  optionSimpleGet = () => {
+    const options = {
+      method: 'GET',
+      headers: {
+        Accept: '*/*',
+      },
+    }
+    return options
+  }
 
-  optionsGetBody = (data) => ({
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Accept-Language': this.language,
-      Authorization: sessionStorage.getItem('auth') || '',
-    },
-    body: JSON.stringify(data),
-  })
+  optionsGetBody = (data) => {
+    const options = {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Accept-Language': this.language,
+        Authorization: `${token}`
+      },
+      data: data,
+    }
+    return options
+  }
 
-  optionsPost = (body) => ({
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Accept-Language': this.language,
-      Authorization: `${token}`,
-    },
-    body: JSON.stringify(body),
-  })
+  optionsPost = (body) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Accept-Language': this.language,
+        Authorization: `${token}`
+      },
+      body: body,
+    }
+    return options
+  }
 
-  optionsPostTmp = (body) => ({
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Accept-Language': this.language,
-      Authorization: sessionStorage.getItem('auth') || '',
-    },
-    body: JSON.stringify(body),
-  })
+  optionsPostTmp = (body) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Accept-Language': this.language,
+        Authorization: `${token}`
+      },
+      body: body,
+    }
+    return options
+  }
 
-  optionsPut = (body) => ({
-    method: 'PUT',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Accept-Language': this.language,
-      Authorization: sessionStorage.getItem('auth') || '',
-    },
-    body: JSON.stringify(body),
-  })
+  optionsPut = (body) => {
+    const options = {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Accept-Language': this.language,
+        Authorization: `${token}`
+      },
+      body: body,
+    }
+    return options
+  }
 
-  optionsPatch = () => ({
-    method: 'PATCH',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Accept-Language': this.language,
-      Authorization: sessionStorage.getItem('auth') || '',
-    },
-  })
+  optionsPatch = () => {
+    const options = {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Accept-Language': this.language,
+        Authorization: `${token}`
+      },
+    }
+    return options
+  }
 
-  optionsPatchBody = (body) => ({
-    method: 'PATCH',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Accept-Language': this.language,
-      Authorization: sessionStorage.getItem('auth') || '',
-    },
-    body: JSON.stringify(body),
-  })
+  optionsPatchBody = (body) => {
+    const options = {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Accept-Language': this.language,
+        Authorization: `${token}`
+      },
+      body: body,
+    }
+    return options
+  }
 
   optionsGetInoreader = (appId, apiKey) => {
     const options = {
