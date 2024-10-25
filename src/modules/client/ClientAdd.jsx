@@ -136,7 +136,7 @@ const ClientAdd = () => {
       toggleModal()
     }
   }
-  
+
   const handleValidSubmit = async (values, { resetForm }) => {
     if (activities.length > 0) {
       values.activities = activities
@@ -144,9 +144,9 @@ const ClientAdd = () => {
       const response = await clientService.postClient(body)
       const { message } = response
       if (message) {
-        //showToaster(message, 'Error', ToasterTypes.Error)
+        showToaster(message, 'Error', ToasterTypes.Error)
       } else {
-        //showToaster('Create Client Success', 'Create Client', ToasterTypes.Success)
+        showToaster('Create Client Success', 'Create Client', ToasterTypes.Success)
         const profile = {
           firstName: values.legalName,
           lastName: values.businessName,
@@ -158,7 +158,7 @@ const ClientAdd = () => {
         resetForm()
       }
     } else {
-      //showToaster('Debe escoger al menos una actividad.', 'Error', ToasterTypes.Error)
+      showToaster('Debe escoger al menos una actividad.', 'Error', ToasterTypes.Error)
     }
   }
 
@@ -231,19 +231,19 @@ const ClientAdd = () => {
               </Grid>
 
               <Grid item xs={6}>
-                <Field as={TextField} label="Nombre legal" name="legalName" fullWidth />
+                <Field as={TextField} label="Nombre legal" name="legalName" required fullWidth />
                 <ErrorMessage name="legalName" component="div" />
               </Grid>
               <Grid item xs={6}>
-                <Field as={TextField} label="Nombre comercial" name="businessName" fullWidth />
+                <Field as={TextField} label="Nombre comercial" name="businessName" required fullWidth />
                 <ErrorMessage name="businessName" component="div" />
               </Grid>
               <Grid item xs={6}>
-                <Field as={TextField} label="Correo electrónico" type="email" name="email" fullWidth />
+                <Field as={TextField} label="Correo electrónico" type="email" name="email" required fullWidth />
                 <ErrorMessage name="email" component="div" />
               </Grid>
               <Grid item xs={3}>
-                <Field as={TextField} select label="Tipo documento" name="identification.type" fullWidth>
+                <Field as={TextField} select label="Tipo documento" name="identification.type" required fullWidth>
                   <MenuItem value="Seleccione">
                     <em>Seleccione...</em>
                   </MenuItem>
@@ -256,11 +256,11 @@ const ClientAdd = () => {
                 <ErrorMessage name="identification.type" component="div" />
               </Grid>
               <Grid item xs={3}>
-                <Field as={TextField} label="Número de documento" name="identification.number" fullWidth />
+                <Field as={TextField} label="Número de documento" name="identification.number" required fullWidth />
                 <ErrorMessage name="identification.number" component="div" />
               </Grid>
               <Grid item xs={6}>
-                <Field as={TextField} select label="Tipo de empresa" name="typeCompany" fullWidth>
+                <Field as={TextField} select label="Tipo de empresa" name="typeCompany" required fullWidth>
                   <MenuItem value="Seleccione">
                     <em>Seleccione...</em>
                   </MenuItem>
@@ -291,12 +291,12 @@ const ClientAdd = () => {
                 </Button>
               </Grid>*/}
               <Grid item xs={6}>
-                <Field as={TextField} label="Total empleados" type="number" name="totalEmployees" fullWidth />
+                <Field as={TextField} label="Total empleados" type="number" name="totalEmployees" required fullWidth />
                 <ErrorMessage name="totalEmployees" component="div" />
               </Grid>
 
               <Grid item xs={6}>
-                <Phones name="phones" max={2} />
+                <Phones name="phones" max={2} required />
               </Grid>
 
               <Grid item xs={12}>
@@ -312,7 +312,7 @@ const ClientAdd = () => {
               </Grid>
 
               <Grid item xs={12}>
-                <AddressSelector name="address" countries={countriesOptions} />
+                <AddressSelector name="address" countriesOptions={countriesOptions} />
               </Grid>
 
               <Grid item xs={12}>

@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Container, Grid, Card, CardContent, Typography, Table } from '@mui/material';
+/** @format */
+
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Container, Grid, Card, CardContent, Typography, Table } from '@mui/material'
 //import ShowAddress from '../../components/Common/ShowAddress';
 //import { ToasterTypes } from '../../helpers/config/constants';
 //import toaster from '../../helpers/common/toaster';
@@ -25,16 +27,16 @@ const mockClientData = {
     city: 'Mock City',
     country: 'Mock Country',
   },
-};
+}
 
 const ClientDetail = () => {
-  const [client, setClient] = useState(mockClientData); 
+  const [client, setClient] = useState(mockClientData)
 
   useEffect(() => {
     setTimeout(() => {
-      //setShowAddress(true); 
-    }, 1000);
-  }, []);
+      //setShowAddress(true);
+    }, 1000)
+  }, [])
 
   return (
     <Container>
@@ -44,7 +46,9 @@ const ClientDetail = () => {
           <Card>
             <CardContent>
               <Typography variant="h5" component="h2">
-                <Link to="/client/update/" className="btn btn-primary">Editar</Link>
+                <Link to="/client/update/" className="btn btn-primary">
+                  Editar
+                </Link>
               </Typography>
               <Table>
                 <tbody>
@@ -112,7 +116,7 @@ const ClientDetail = () => {
         */}
       </Grid>
     </Container>
-  );
-};
+  )
+}
 
-export default ClientDetail;
+export default ClientDetail

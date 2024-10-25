@@ -5,7 +5,7 @@ import { TextField, Grid, MenuItem, Container } from '@mui/material'
 import { Field, useFormikContext } from 'formik'
 import { commonService } from '../../../services/commonService'
 
-const AddressSelector = ({ countries }) => {
+const AddressSelector = ({ countriesOptions }) => {
   const { setFieldValue } = useFormikContext()
   const [departments, setDepartments] = useState([])
   const [municipalities, setMunicipalities] = useState([])
@@ -50,11 +50,11 @@ const AddressSelector = ({ countries }) => {
         <h3>Ubicación Geográfica</h3>
       </Grid>
       <Grid item xs={3}>
-        <Field as={TextField} select label="País" name="address.country" fullWidth onChange={handleCountryChange}>
+        <Field as={TextField} select label="País" name="address.country" fullWidth onChange={handleCountryChange} required>
           <MenuItem value="">
             <em>Seleccione...</em>
           </MenuItem>
-          {countries.map((country) => (
+          {countriesOptions.map((country) => (
             <MenuItem key={country.value} value={country.value}>
               {country.label}
             </MenuItem>
@@ -62,7 +62,7 @@ const AddressSelector = ({ countries }) => {
         </Field>
       </Grid>
       <Grid item xs={3}>
-        <Field as={TextField} select label="Departamento" name="address.firstPoliticalDivision" fullWidth onChange={handleDepartmentChange}>
+        <Field as={TextField} select label="Departamento" name="address.firstPoliticalDivision" fullWidth onChange={handleDepartmentChange} required>
           <MenuItem value="">
             <em>Seleccione...</em>
           </MenuItem>
@@ -74,7 +74,7 @@ const AddressSelector = ({ countries }) => {
         </Field>
       </Grid>
       <Grid item xs={3}>
-        <Field as={TextField} select label="Municipio" name="address.secondPoliticalDivision" fullWidth onChange={handleMunicipalityChange}>
+        <Field as={TextField} select label="Municipio" name="address.secondPoliticalDivision" fullWidth onChange={handleMunicipalityChange} required>
           <MenuItem value="">
             <em>Seleccione...</em>
           </MenuItem>
@@ -86,7 +86,7 @@ const AddressSelector = ({ countries }) => {
         </Field>
       </Grid>
       <Grid item xs={3}>
-        <Field as={TextField} select label="Centro" name="address.thirdPoliticalDivision" fullWidth>
+        <Field as={TextField} select label="Centro" name="address.thirdPoliticalDivision" fullWidth required>
           <MenuItem value="">
             <em>Seleccione...</em>
           </MenuItem>

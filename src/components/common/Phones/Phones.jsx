@@ -40,7 +40,7 @@ const Phones = ({ max = 4, name }) => {
 
     const updatedPatterns = [...patterns]
     const updatedPlaceholders = [...placeHolders]
-    
+
     switch (phoneType) {
       case TypePhone.movil:
         updatedPatterns[index] = Patterns.movilPattern
@@ -72,53 +72,23 @@ const Phones = ({ max = 4, name }) => {
           {values.phones.map((phone, ix) => (
             <Grid container spacing={2} key={`phones-${ix}`}>
               <Grid item sm={5}>
-                <TextField
-                  name={`${name}[${ix}].type`}
-                  label="Tipo"
-                  value={phone.type}
-                  onChange={(e) => onChangePhone(ix, e)}
-                  select
-                  required
-                  fullWidth
-                >
+                <TextField name={`${name}[${ix}].type`} label="Tipo" value={phone.type} onChange={(e) => onChangePhone(ix, e)} select required fullWidth>
                   <MenuItem value="">{t('Seleccione...')}</MenuItem>
                   <MenuItem value={TypePhone.movil}>{t('Movil')}</MenuItem>
                   <MenuItem value={TypePhone.land}>{t('Land')}</MenuItem>
                 </TextField>
               </Grid>
               <Grid item sm={4}>
-                <TextField
-                  name={`${name}[${ix}].number`}
-                  label="Número"
-                  value={phone.number}
-                  onChange={(e) => onChangeNumber(ix, e)}
-                  type="number"
-                  placeholder={placeHolders[ix]}
-                  pattern={patterns[ix]}
-                  required
-                  fullWidth
-                />
+                <TextField name={`${name}[${ix}].number`} label="Número" value={phone.number} onChange={(e) => onChangeNumber(ix, e)} type="number" placeholder={placeHolders[ix]} pattern={patterns[ix]} required fullWidth />
               </Grid>
               <Grid item sm={3}>
                 {ix > 0 ? (
-                  <Button
-                    onClick={() => handleRemovePhone(ix, arrayHelpers)}
-                    variant="contained"
-                    color="error"
-                    fullWidth
-                    sx={{ mt: 2 }}
-                  >
+                  <Button onClick={() => handleRemovePhone(ix, arrayHelpers)} variant="contained" color="error" fullWidth sx={{ mt: 2 }}>
                     -
                     <i className="dripicons-trash" />
                   </Button>
                 ) : (
-                  <Button
-                    onClick={() => handleAddPhone(arrayHelpers)}
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    sx={{ mt: 2 }}
-                  >
+                  <Button onClick={() => handleAddPhone(arrayHelpers)} variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
                     +
                     <i className="dripicons-plus" />
                   </Button>

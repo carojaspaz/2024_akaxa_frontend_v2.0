@@ -4,7 +4,6 @@ import React, { useState } from 'react'
 import { TextField, Button, Grid, MenuItem } from '@mui/material'
 import { Field, FieldArray } from 'formik'
 import { TypePhone } from '../../../helpers/config/constants'
-import useToaster from '../../../helpers/common/toaster'
 import { useTranslation } from 'react-i18next'
 
 const ContactClient = ({ name, max }) => {
@@ -24,10 +23,10 @@ const ContactClient = ({ name, max }) => {
             {contacts.map((contact, index) => (
               <React.Fragment key={index}>
                 <Grid item xs={5}>
-                  <Field as={TextField} label="Nombre" name={`${name}[${index}].name`} fullWidth />
+                  <Field as={TextField} label="Nombre" name={`${name}[${index}].name`} required fullWidth />
                 </Grid>
                 <Grid item xs={5}>
-                  <Field as={TextField} label="Cargo" name={`${name}[${index}].position`} fullWidth />
+                  <Field as={TextField} label="Cargo" name={`${name}[${index}].position`} required fullWidth />
                 </Grid>
                 <Grid item xs={2}>
                   {contacts.length > 1 && (
@@ -37,17 +36,17 @@ const ContactClient = ({ name, max }) => {
                   )}
                 </Grid>
                 <Grid item xs={6}>
-                  <Field as={TextField} label="Correo electrónico" type="email" name={`${name}[${index}].email`} fullWidth />
+                  <Field as={TextField} label="Correo electrónico" type="email" name={`${name}[${index}].email`} required fullWidth />
                 </Grid>
                 <Grid item xs={3}>
-                  <Field as={TextField} select label="Tipo" name={`${name}[${index}].phone.type`} fullWidth>
+                  <Field as={TextField} select label="Tipo" name={`${name}[${index}].phone.type`} required fullWidth>
                     <MenuItem value="">{t('Seleccione...')}</MenuItem>
                     <MenuItem value={TypePhone.movil}>{t('Móvil')}</MenuItem>
                     <MenuItem value={TypePhone.land}>{t('Fijo')}</MenuItem>
                   </Field>
                 </Grid>
                 <Grid item xs={3}>
-                  <Field as={TextField} label="Número" name={`${name}[${index}].phone.number`} fullWidth />
+                  <Field as={TextField} label="Número" name={`${name}[${index}].phone.number`} required fullWidth />
                 </Grid>
               </React.Fragment>
             ))}

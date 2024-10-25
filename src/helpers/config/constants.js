@@ -35,11 +35,11 @@ export const ParamTypes = {
 }
 
 export const ToasterTypes = {
-  Success: 1,
-  Info: 2,
-  Warning: 3,
-  Error: 4,
-}
+  Success: 'success',
+  Info: 'info',
+  Warning: 'warning',
+  Error: 'error',
+};
 
 export const rolesName = {
   super: 'SuperAdmin',

@@ -161,7 +161,7 @@ const BusinessSectorSelector = ({ name }) => {
       </Grid>
 
       <Grid item xs={6}>
-        <Field as={TextField} select label="Seleccione el Sector" name={`${name}.sector`} value={codeCIIU.sector} onChange={onSectorSelected} fullWidth>
+        <Field as={TextField} select label="Seleccione el Sector" name={`${name}.sector`} value={codeCIIU.sector} onChange={onSectorSelected} required fullWidth>
           <MenuItem value="All">
             <em>Todas</em>
           </MenuItem>
@@ -174,7 +174,7 @@ const BusinessSectorSelector = ({ name }) => {
       </Grid>
 
       <Grid item xs={6}>
-        <Field as={TextField} select label="Seleccione División" name={`${name}.division`} value={codeCIIU.division} onChange={onDivisionSelected} fullWidth>
+        <Field as={TextField} select label="Seleccione División" name={`${name}.division`} value={codeCIIU.division} onChange={onDivisionSelected} required fullWidth>
           <MenuItem value="All">
             <em>Todas</em>
           </MenuItem>
@@ -187,7 +187,7 @@ const BusinessSectorSelector = ({ name }) => {
       </Grid>
 
       <Grid item xs={6}>
-        <Field as={TextField} select label="Seleccione Subdivisión" name={`${name}.subdivision`} value={codeCIIU.subdivision} onChange={onSubdivisionSelected} fullWidth>
+        <Field as={TextField} select label="Seleccione Subdivisión" name={`${name}.subdivision`} value={codeCIIU.subdivision} onChange={onSubdivisionSelected} required fullWidth>
           <MenuItem value="All">
             <em>Todas</em>
           </MenuItem>
@@ -200,7 +200,7 @@ const BusinessSectorSelector = ({ name }) => {
       </Grid>
 
       <Grid item xs={6}>
-        <Field as={TextField} select label="Seleccione Actividad" name={`${name}.activity`} value={codeCIIU.activity} onChange={onActivitySelected} fullWidth>
+        <Field as={TextField} select label="Seleccione Actividad" name={`${name}.activity`} value={codeCIIU.activity} onChange={onActivitySelected} required fullWidth>
           <MenuItem value="All">
             <em>Todas</em>
           </MenuItem>
