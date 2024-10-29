@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { TextField, Button, Grid, MenuItem, Container } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
-import * as Yup from 'yup'
 //
 import { Modal, ModalHeader, ModalBody } from 'reactstrap'
 import { ToasterTypes, ParamTypes, Patterns } from '../../helpers/config/constants'
@@ -22,17 +21,6 @@ import Phones from '../../components/common/Phones/Phones'
 import { clientService } from '../../services/clientService'
 import { commonService } from '../../services/commonService.js'
 //
-
-const validationSchema = Yup.object({
-  legalName: Yup.string().required('Campo requerido'),
-  businessName: Yup.string().required('Campo requerido'),
-  email: Yup.string().email('Correo inválido').required('Campo requerido'),
-  identification: Yup.string().required('Seleccione una opción'),
-  typeCompany: Yup.string().required('Campo requerido'),
-  //activities: Yup.string().required('Campo requerido'),
-  totalEmployees: Yup.number().min(1, 'Debe ser al menos 1 empleado').required('Campo requerido'),
-  description: Yup.string().required('Campo requerido'),
-})
 
 const ClientAdd = () => {
   const { showToaster } = useToaster()
@@ -219,7 +207,6 @@ const ClientAdd = () => {
             longitude: -77.285516,
           },
         }}
-        //validationSchema={validationSchema}
         onSubmit={handleValidSubmit}>
         {() => (
           <Form>
