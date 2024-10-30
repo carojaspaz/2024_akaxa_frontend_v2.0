@@ -69,6 +69,27 @@ class ClientService extends BaseService {
       return null
     }
   }
+
+  getClientById = async (id) => {
+    try{
+    const response = await fetch(
+      `${Config.urlBase}/client/${id}`,
+      this.optionsGet()
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        return data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return response;
+    } catch (err) {
+      return { message: ErrorMessages[500] }
+    }
+  };
 }
 
 export const clientService = new ClientService()

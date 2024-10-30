@@ -100,7 +100,7 @@ const ClientList = (props) => {
                     <TableCell align="center">{client.totalEmployees}</TableCell>
                     <TableCell align="center">{client.isActive ? 'Activo' : 'Inactivo'}</TableCell>
                     <TableCell align="center">
-                      <Link to="/clients/clientDetail">
+                      <Link to={`/clients/clientDetail/${client.id}`}>
                         <VisibilityIcon />{' '}
                       </Link>
                       <Link href="#">

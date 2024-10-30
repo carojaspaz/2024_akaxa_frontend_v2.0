@@ -16,14 +16,17 @@ const publicRoutes = [
 
 const privateRoutes = [
   { path: '/home', component: <HomePage /> },
+
   { path: '/clients', component: <ClientPage /> },
   { path: '/clients/addClient', component: <ClientAdd /> },
   { path: '/clients/listClients', component: <ClientList /> },
-  { path: '/clients/clientDetail', component: <ClientDetail/> },
+  { path: '/clients/clientDetail/:id', component: <ClientDetail/> },  
+
   { path: '/operators', component: <OperatorPage /> },
   { path: '/operators/addOperator', component: <OperatorAdd /> },
   { path: '/operators/listOperators', component: <OperatorList /> },
-  { path: '/operators/operatorDetail', component: <OperatorDetail/> },
+  { path: '/operators/operatorDetail/:operatorId', component: <OperatorDetail/> },
+  
   { path: "/", exact: true, component: <Navigate to="/home" /> }
 ]
 

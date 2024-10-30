@@ -28,7 +28,7 @@ const OperatorList = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
-      const data = await operatorService.getOperators()      
+      const data = await operatorService.getOperators()
       if (data) {
         setOperators(data)
         setError(null)
@@ -82,24 +82,21 @@ const OperatorList = (props) => {
               </TableHead>
               <TableBody>
                 {operators.map((operator) => (
-                  <TableRow                    
-                    key={operator.id}                    
-                    item
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  <TableRow key={operator.id} item sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                     <TableCell component="th" scope="row">
                       {operator.identification.type}
                     </TableCell>
                     <TableCell component="th" scope="row">
                       {operator.identification.number}
                     </TableCell>
-                    <TableCell align="left">{operator.name}</TableCell>                    
+                    <TableCell align="left">{operator.name}</TableCell>
                     <TableCell align="center">{operator.email}</TableCell>
                     <TableCell align="center">{operator.typeOperator}</TableCell>
                     <TableCell align="center">{operator.approved ? 'Activo' : 'Inactivo'}</TableCell>
                     <TableCell align="center">
-                      <Link to="/operators/operatorDetail">
+                      <Link to={`/operators/operatorDetail/${operator.id}`}>
                         <VisibilityIcon />{' '}
-                      </Link>                      
+                      </Link>
                     </TableCell>
                   </TableRow>
                 ))}
