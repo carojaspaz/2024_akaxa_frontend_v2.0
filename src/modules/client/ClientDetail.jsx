@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { Container, Grid, Card, CardContent, Typography, Table } from '@mui/material'
+import { Container, Grid, Card, CardContent, Typography, Table, TableBody, TableRow, TableCell, Button } from '@mui/material'
+import EditIcon from '@mui/icons-material/Edit'
 import { clientService } from '../../services/clientService'
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -69,58 +70,54 @@ const ClientDetail = () => {
         <Grid item xs={12} md={4}>
           <Card>
             <CardContent>
-              <Typography variant="h5" component="h2">
-                <Link to={`/client/update/${id}`} className="btn btn-primary">
-                  Desactivar
-                </Link>
-              </Typography>
+              <Button variant="contained" color="primary" startIcon={<EditIcon />} component={Link} to={`/client/update/${id}`} style={{ marginBottom: '16px' }}>
+                Desactivar
+              </Button>
               <Table>
-                <tbody>
-                  <tr>
-                    <th>Nombre:</th>
-                    <td>{client.legalName}</td>
-                  </tr>
-                  <tr>
-                    <th>Nombre Comercial:</th>
-                    <td>{client.businessName}</td>
-                  </tr>
-                  <tr>
-                    <th>Actividad Comercial:</th>
-                    <td>{client.businessActivity}</td>
-                  </tr>
-                  {client.phones &&
-                    client.phones.map((phone, index) => (
-                      <tr key={`phones-${index}`}>
-                        <th>{phone.type}:</th>
-                        <td>{phone.number}</td>
-                      </tr>
-                    ))}
-                  <tr>
-                    <th>Mail:</th>
-                    <td>{client.email}</td>
-                  </tr>
-                  <tr>
-                    <th>Contactos</th>
-                    <td></td>
-                  </tr>
-                  {client.contacts &&
-                    client.contacts.map((contact, index) => (
-                      <React.Fragment key={`contacts-${index}`}>
-                        <tr>
-                          <th>Nombre:</th>
-                          <td>{contact.name}</td>
-                        </tr>
-                        <tr>
-                          <th>Cargo:</th>
-                          <td>{contact.position}</td>
-                        </tr>
-                        <tr>
-                          <th>Teléfono:</th>
-                          <td>{`${contact.phone.type} - ${contact.phone.number}`}</td>
-                        </tr>
-                      </React.Fragment>
-                    ))}
-                </tbody>
+                <TableBody>
+                  <TableRow>
+                    <TableCell component="th" variant="head">Nombre:</TableCell>
+                    <TableCell>{client.legalName}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell component="th" variant="head">Nombre Comercial:</TableCell>
+                    <TableCell>{client.businessName}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell component="th" variant="head">Actividad Comercial:</TableCell>
+                    <TableCell>{client.businessActivity}</TableCell>
+                  </TableRow>
+                  {client.phones?.map((phone, index) => (
+                    <TableRow key={`phones-${index}`}>
+                      <TableCell component="th" variant="head">{phone.type}:</TableCell>
+                      <TableCell>{phone.number}</TableCell>
+                    </TableRow>
+                  ))}
+                  <TableRow>
+                    <TableCell component="th" variant="head">Mail:</TableCell>
+                    <TableCell>{client.email}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell component="th" variant="head">Contactos</TableCell>
+                    <TableCell></TableCell>
+                  </TableRow>
+                  {client.contacts?.map((contact, index) => (
+                    <React.Fragment key={`contacts-${index}`}>
+                      <TableRow>
+                        <TableCell component="th" variant="head">Nombre:</TableCell>
+                        <TableCell>{contact.name}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell component="th" variant="head">Cargo:</TableCell>
+                        <TableCell>{contact.position}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell component="th" variant="head">Teléfono:</TableCell>
+                        <TableCell>{`${contact.phone.type} - ${contact.phone.number}`}</TableCell>
+                      </TableRow>
+                    </React.Fragment>
+                  ))}
+                </TableBody>
               </Table>
             </CardContent>
           </Card>
@@ -129,26 +126,28 @@ const ClientDetail = () => {
           <Card>
             <CardContent>
               <Table>
-                <tbody>
-                  <tr>
-                    <th>Dirección:</th>
-                    <td>{client.address.address}</td>
-                  </tr>
-                  <tr>
-                    <th>Descpripción:</th>
-                    <td>{client.address.description}</td>
-                  </tr>
-                  <tr>
-                    <th>División Política:</th>
-                    <td>{client.address.country}</td>
-                  </tr>
-                  <tr>
-                    <MapContainer center={position} zoom={13} style={{ height: '400px', width: '250%' }}>
-                      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                      <LocationMarker />
-                    </MapContainer>
-                  </tr>
-                </tbody>
+                <TableBody>
+                  <TableRow>
+                    <TableCell component="th" variant="head">Dirección:</TableCell>
+                    <TableCell>{client.address.address}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell component="th" variant="head">Descripción:</TableCell>
+                    <TableCell>{client.address.description}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell component="th" variant="head">División Política:</TableCell>
+                    <TableCell>{client.address.country}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell colSpan={2}>
+                      <MapContainer center={position} zoom={13} style={{ height: '400px', width: '250%' }}>
+                        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                        <LocationMarker />
+                      </MapContainer>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
               </Table>
             </CardContent>
           </Card>

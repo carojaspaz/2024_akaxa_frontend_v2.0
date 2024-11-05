@@ -14,6 +14,7 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import EditIcon from '@mui/icons-material/Edit'
+import StoreIcon from '@mui/icons-material/Store'
 import Grid from '@mui/material/Unstable_Grid2'
 
 import useThemeStore from '../../store/themeStore'
@@ -79,6 +80,7 @@ const ClientList = (props) => {
                   <TableCell align="center">Correo electrónico</TableCell>
                   <TableCell align="center">Total Empleados</TableCell>
                   <TableCell align="center">Estado</TableCell>
+                  <TableCell align="center">Sucursales</TableCell>
                   <TableCell align="center">Opcion</TableCell>
                 </TableRow>
               </TableHead>
@@ -99,6 +101,12 @@ const ClientList = (props) => {
                     <TableCell align="center">{client.email}</TableCell>
                     <TableCell align="center">{client.totalEmployees}</TableCell>
                     <TableCell align="center">{client.isActive ? 'Activo' : 'Inactivo'}</TableCell>
+                    <TableCell align="center">
+                      <Link href="#">
+                        <StoreIcon className="mr-1" />
+                      </Link>
+                    </TableCell>
+
                     <TableCell align="center">
                       <Link to={`/clients/clientDetail/${client.id}`}>
                         <VisibilityIcon />{' '}

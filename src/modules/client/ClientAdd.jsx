@@ -142,7 +142,7 @@ const ClientAdd = () => {
           phones: values.phones,
           email: values.email,
         }
-        //await clientService.postProfileClient(response, JSON.stringify(profile)) - Revisar error de Backend
+        await clientService.postProfileClient(response, JSON.stringify(profile)) 
         resetForm()
       }
     } else {
