@@ -1,104 +1,95 @@
-
-//import axios from 'axios'
-
+/** @format */
+import { BaseService } from './baseService'
 import { Config } from '../helpers/config/constants'
 
+class ClientService extends BaseService {
+  constructor() {
+    super()
+  }
 
-const authData = sessionStorage.getItem('auth');
-const token = authData ? JSON.parse(authData).token : null;
+  /**
+   * Método para crear un nuevo cliente
+   * @param {string} body - Los datos del cliente en formato JSON
+   * @returns {Promise<Object>} - Promesa que resuelve con la respuesta del servidor
+   */
+  async postClient(body) {
+    try {      
+      const response = await fetch(Config.urlBase + '/client', this.optionsPost(body))
 
-export const getAllClients = async () => {
+      if (!response.ok) {
+        throw new Error(`HTTP Error status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return data
+    } catch (error) {
+      console.error('Error al crear el cliente:', error)
+      throw error
+    }
+  }
+
+  /**
+   * Método para crear el perfil del cliente
+   * @param {string} clientId - ID del cliente creado
+   * @param {string} profileBody - Los datos del perfil en formato JSON
+   * @returns {Promise<Object>} - Promesa que resuelve con la respuesta del servidor
+   */
+  async postProfileClient(clientId, profileBody) {
     try {
-        const response = await fetch(Config.urlBase + '/Client', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`, // Añade el token en los encabezados de la solicitud
-                'Content-Type': 'application/json',
-            },
-        });
-        // Asegúrate de usar la URL correcta
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
+      const response = await fetch(`${Config.urlBase}/client/profile/${clientId}`, this.optionsPost(profileBody))
+
+      if (!response.ok) {
+        throw new Error(`HTTP Error status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return data
+    } catch (error) {
+      console.error('Error al crear el cliente:', error)
+      throw error
+    }
+  }
+
+  /**
+   * Método para obtener todos los clientes
+   * @returns {Promise<Array>} - Lista de clientes
+   */
+  async getAllClients() {
+    try {
+      const response = await fetch(Config.urlBase + '/client', this.optionsGet())
+
+      if (!response.ok) {
+        throw new Error(`HTTP Error status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return data
+    } catch (error) {
+      console.error('Error al obtener los clientes:', error)
+      return null
+    }
+  }
+
+  getClientById = async (id) => {
+    try{
+    const response = await fetch(
+      `${Config.urlBase}/client/${id}`,
+      this.optionsGet()
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
         return data;
-    } catch (error) {
-        console.error('Error fetching client list:', error);
-        return null; // Puedes ajustar esto dependiendo de cómo quieras manejar los errores
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return response;
+    } catch (err) {
+      return { message: ErrorMessages[500] }
     }
-};
-
-export const getClientID = async (clientId) => {
-    try {
-        const response = await fetch(Config.urlBase + `/client/${clientId}`, {
-            method: 'Get',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-        })
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        return data;
-
-    } catch (error) {
-        console.log('HTTP Invalid to get a user', error)
-        return null
-        //return {message: ErrorMessage[500]}
-    }
+  };
 }
 
-export const createUser = async (userData) => {
-    const authData = sessionStorage.getItem('auth');
-    const token = authData ? JSON.parse(authData).token : null;
-
-    if (!token) {
-        console.error('Sesión finalizada')
-        return null
-        window.location('/home')
-    }
-
-    try {
-        const response = await fetch(Config.urlBase + '/createUser', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(userData)
-        })
-        if (!response.ok) {
-            throw new Error(`HTTP Error status: ${response.status}`)
-        }
-        const data = await response.json();
-        return data
-
-    } catch (error) {
-        console.error('Error Creating User:', error)
-        return null
-    }
-}
-
-export const putActiveClient = async(clientId)=>{
-    const response = await fetch (Config.urlBase+`/client/${clientId}`,
-    {
-        method:'PUT',
-        headers:{
-            'Authorization':`Bearer ${token}`,
-            'Content-Type':'application/json'
-        }
-    })
-}
-
-
-
-// export const clientEdit = async()=>{
-
-// }
-
-// export const clientDelete = async()=>{
-
-// }
-
+export const clientService = new ClientService()

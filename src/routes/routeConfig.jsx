@@ -6,6 +6,7 @@ import { LoginPage, LogoutPage } from '../modules/auth'
 import { HomePage } from '../modules/home'
 import { ClientPage, ClientList, ClientAdd, ClientDetail } from '../modules/client'
 import { NotFoundPage } from '../modules/common'
+import { OperatorPage, OperatorAdd, OperatorList, OperatorDetail } from '../modules/operator'
 
 const publicRoutes = [
   { path: '/login', component: <LoginPage /> },
@@ -15,10 +16,17 @@ const publicRoutes = [
 
 const privateRoutes = [
   { path: '/home', component: <HomePage /> },
+
   { path: '/clients', component: <ClientPage /> },
   { path: '/clients/addClient', component: <ClientAdd /> },
   { path: '/clients/listClients', component: <ClientList /> },
-  { path: '/clients/clientDetail', component: <ClientDetail/> },
+  { path: '/clients/clientDetail/:id', component: <ClientDetail/> },  
+
+  { path: '/operators', component: <OperatorPage /> },
+  { path: '/operators/addOperator', component: <OperatorAdd /> },
+  { path: '/operators/listOperators', component: <OperatorList /> },
+  { path: '/operators/operatorDetail/:operatorId', component: <OperatorDetail/> },
+  
   { path: "/", exact: true, component: <Navigate to="/home" /> }
 ]
 

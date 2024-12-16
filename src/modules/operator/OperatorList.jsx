@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'
 
-import { clientService } from '../../services/clientService'
+import { operatorService } from '../../services/operatorService'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -13,30 +13,27 @@ import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import VisibilityIcon from '@mui/icons-material/Visibility'
-import EditIcon from '@mui/icons-material/Edit'
-import StoreIcon from '@mui/icons-material/Store'
 import Grid from '@mui/material/Unstable_Grid2'
 
 import useThemeStore from '../../store/themeStore'
 import Button from '@mui/material/Button'
 import { Container, Typography } from '@mui/material'
 
-const ClientList = (props) => {
+const OperatorList = (props) => {
   const { theme, toggleTheme } = useThemeStore()
-  const [clients, setClients] = useState([])
+  const [operators, setOperators] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
-      const data = await clientService.getAllClients()
-      console.log(JSON.stringify(data))
+      const data = await operatorService.getOperators()
       if (data) {
-        setClients(data)
+        setOperators(data)
         setError(null)
       } else {
-        setError('Error fetching client data')
+        setError('Error fetching operator data')
       }
       setLoading(false)
     }
@@ -65,8 +62,8 @@ const ClientList = (props) => {
           <h1>{props.title}</h1>
         </Grid>
         <Grid item xs={4} alignContent={'center'}>
-          <Link to="/clients/addClient">
-            <Button variant="contained"> Registrar usuario</Button>
+          <Link to="/operators/addOperator">
+            <Button variant="contained">Registrar operador</Button>
           </Link>
         </Grid>
         <Grid item xs={12}>
@@ -75,44 +72,30 @@ const ClientList = (props) => {
               <TableHead>
                 <TableRow>
                   <TableCell>ID </TableCell>
-                  <TableCell align="center">Nombre legal</TableCell>
-                  <TableCell align="center">Actividad</TableCell>
+                  <TableCell align="center">No Identificación</TableCell>
+                  <TableCell align="center">Nombres completos</TableCell>
                   <TableCell align="center">Correo electrónico</TableCell>
-                  <TableCell align="center">Total Empleados</TableCell>
+                  <TableCell align="center">Tipo Operador</TableCell>
                   <TableCell align="center">Estado</TableCell>
-                  <TableCell align="center">Sucursales</TableCell>
-                  <TableCell align="center">Opcion</TableCell>
+                  <TableCell align="center">Ver</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {clients.map((client) => (
-                  <TableRow
-                    // hover
-                    // role="checkbox"
-                    // tabIndex={-1}
-                    key={client.id}
-                    item
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                {operators.map((operator) => (
+                  <TableRow key={operator.id} item sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                     <TableCell component="th" scope="row">
-                      {client.identification.number}
+                      {operator.identification.type}
                     </TableCell>
-                    <TableCell align="left">{client.legalName}</TableCell>
-                    <TableCell align="justify">{client.businessActivity}</TableCell>
-                    <TableCell align="center">{client.email}</TableCell>
-                    <TableCell align="center">{client.totalEmployees}</TableCell>
-                    <TableCell align="center">{client.isActive ? 'Activo' : 'Inactivo'}</TableCell>
-                    <TableCell align="center">
-                      <Link href="#">
-                        <StoreIcon className="mr-1" />
-                      </Link>
+                    <TableCell component="th" scope="row">
+                      {operator.identification.number}
                     </TableCell>
-
+                    <TableCell align="left">{operator.name}</TableCell>
+                    <TableCell align="center">{operator.email}</TableCell>
+                    <TableCell align="center">{operator.typeOperator}</TableCell>
+                    <TableCell align="center">{operator.approved ? 'Activo' : 'Inactivo'}</TableCell>
                     <TableCell align="center">
-                      <Link to={`/clients/clientDetail/${client.id}`}>
+                      <Link to={`/operators/operatorDetail/${operator.id}`}>
                         <VisibilityIcon />{' '}
-                      </Link>
-                      <Link href="#">
-                        <EditIcon />{' '}
                       </Link>
                     </TableCell>
                   </TableRow>
@@ -126,4 +109,4 @@ const ClientList = (props) => {
   )
 }
 
-export default ClientList
+export default OperatorList
