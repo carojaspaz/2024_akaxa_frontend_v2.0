@@ -2,6 +2,12 @@
 import { BaseService } from './baseService'
 import { Config } from '../helpers/config/constants'
 
+const ErrorMessages = {
+  500: 'Internal Server Error',
+  404: 'Not Found',
+  400: 'Bad Request',
+}
+
 class ClientService extends BaseService {
   constructor() {
     super()
@@ -13,7 +19,7 @@ class ClientService extends BaseService {
    * @returns {Promise<Object>} - Promesa que resuelve con la respuesta del servidor
    */
   async postClient(body) {
-    try {      
+    try {
       const response = await fetch(Config.urlBase + '/client', this.optionsPost(body))
 
       if (!response.ok) {
@@ -71,25 +77,35 @@ class ClientService extends BaseService {
   }
 
   getClientById = async (id) => {
-    try{
-    const response = await fetch(
-      `${Config.urlBase}/client/${id}`,
-      this.optionsGet()
-    )
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        return data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return response;
+    try {
+      const response = await fetch(`${Config.urlBase}/client/${id}`, this.optionsGet())
+        .then((response) => {
+          return response.json()
+        })
+        .then((data) => {
+          return data
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      return response
     } catch (err) {
       return { message: ErrorMessages[500] }
     }
-  };
+  }
+
+  async getClientsWithBranches() {
+    try {
+      const response = await fetch(`${Config.urlBase}/client/branchOffice/GetAll`)
+      if (!response.ok) {
+        throw new Error('Error en la respuesta del servidor')
+      }
+      return await response.json()
+    } catch (error) {
+      console.error('Error al obtener los clientes:', error)
+      return null
+    }
+  }
 }
 
 export const clientService = new ClientService()

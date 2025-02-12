@@ -2,7 +2,7 @@
 
 const authData = JSON.parse(sessionStorage.getItem('auth'))
 //const token = authData.token;
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVydXNlckBzYWZldHludHJ1c3QuY29tIiwidXNlcm5hbWUiOiJtYXN0ZXIiLCJyb2xlIjoiU3VwZXJBZG1pbiIsImV4cGlyYXRpb24iOiIyMDI0LTExLTE3VDIzOjU5OjU5Ljk5OVoiLCJpYXQiOjE3MjkyODE4Mjh9.-_qXE2wh-Sw-RU9HC9j53eU8n6FwaGyYX_KI6bdqdOI'
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVydXNlckBzYWZldHludHJ1c3QuY29tIiwidXNlcm5hbWUiOiJtYXN0ZXIiLCJyb2xlIjoiU3VwZXJBZG1pbiIsImV4cGlyYXRpb24iOiIyMDI1LTAyLTA3VDA0OjU5OjU5Ljk5OVoiLCJpYXQiOjE3MzYyOTM5MTJ9.ZFn4LE3Qwe3kU0NEUORErcbmRilaVltaWJ0jckDecu4';
 
 class BaseService {
   constructor() {

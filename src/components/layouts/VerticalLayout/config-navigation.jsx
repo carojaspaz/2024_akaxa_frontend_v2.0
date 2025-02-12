@@ -11,6 +11,11 @@ const navConfig = [
     icon: icon('ic_analytics'),
   },
   {
+    title: 'Admin',
+    path: '/admin',
+    icon: icon('ic_cart'),
+  },
+  {
     title: 'Clients',
     path: '/clients',
     icon: icon('ic_user'),
@@ -21,10 +26,27 @@ const navConfig = [
     icon: icon('ic_cart'),
   },
   {
-    title: 'Evaluations',
-    path: '/blog',
+    title: 'Audits',
+    path: '/audits',
+    icon: icon('ic_user'),
+  },
+  {
+    title: 'inspection',
+    path: '/CheckListsViewInspectionCategories',
+    icon: icon('ic_analytics'),
+   },
+  {
+    title: 'Parameters',
+    path: '/params',
+    icon: icon('ic_cart'),
+  },
+  {
+   title: 'Evaluations',
+    path: '/protocols',
     icon: icon('ic_blog'),
   },
+  
+  
   // {
   //   title: 'login',
   //   path: '/login',

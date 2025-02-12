@@ -107,11 +107,11 @@ class CommonService extends BaseService {
     }
   }
 
-   /**
+  /**
    * Método para obtener los municipios de un departamento
-   * @returns {Promise<Array>} - Lista de los municipios de un departamento 
+   * @returns {Promise<Array>} - Lista de los municipios de un departamento
    */
-   async getMunicipalityStates(country) {
+  async getMunicipalityStates(country) {
     try {
       const response = await fetch(`${Config.urlBase}/countries/states/municipalities/${country}/`, this.paramOptions())
 
@@ -134,6 +134,65 @@ class CommonService extends BaseService {
   async getPopulateCenterMunicipality(country) {
     try {
       const response = await fetch(`${Config.urlBase}/countries/states/municipalities/populate/${country}/`, this.paramOptions())
+
+      if (!response.ok) {
+        throw new Error(`HTTP Error status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return data
+    } catch (error) {
+      console.error('Error al obtener los valores segun un parametro:', error)
+      return null
+    }
+  }
+
+  /**
+   * Método para agregar un nuevo tipo de empresa
+   * @param {Object} body - Datos del nuevo tipo de empresa
+   * @returns {Promise<Object>} - Respuesta del servidor
+   */
+  async postCompanyType(body) {
+    try {
+      const response = await fetch(`${Config.urlBase}/company/types/`, this.optionsPost(body))
+
+      if (!response.ok) {
+        throw new Error(`HTTP Error status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return data
+    } catch (error) {
+      console.error('Error al agregar un nuevo tipo de empresa:', error)
+      return { message: 'Error al procesar la solicitud' }
+    }
+  }
+
+  /**
+   * Método para editar un tipo de empresa
+   * @param {string} id - ID del tipo de empresa a editar
+   * @param {Object} body - Datos actualizados del tipo de empresa
+   * @returns {Promise<Object>} - Respuesta del servidor
+   */
+  async putEditCompanyType(id, body) {
+    try {
+      const response = await fetch(`${Config.urlBase}/company/types/${id}`, this.optionsPut(body))
+
+      if (!response.ok) {
+        throw new Error(`HTTP Error status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return data
+    } catch (error) {
+      console.error('Error al editar el tipo de empresa:', error)
+      return { message: 'Error al procesar la solicitud' }
+    }
+  }
+
+  async getRiskTypes (){
+    try {
+      const response = await fetch(`${Config.urlBase}/risk/typesList/`, this.paramOptions())
 
       if (!response.ok) {
         throw new Error(`HTTP Error status: ${response.status}`)

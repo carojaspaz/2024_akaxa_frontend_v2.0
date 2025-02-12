@@ -7,6 +7,11 @@ import { HomePage } from '../modules/home'
 import { ClientPage, ClientList, ClientAdd, ClientDetail } from '../modules/client'
 import { NotFoundPage } from '../modules/common'
 import { OperatorPage, OperatorAdd, OperatorList, OperatorDetail } from '../modules/operator'
+import { CompanyTypes} from '../modules/params'
+import { AdminRegister} from '../modules/admin'
+import { CheckListsViewInspectionCategories, ChecklistAdd } from '../modules/checklist'
+import { ProtocolEvaluation, ProtocolsList} from '../modules/protocols'
+import { AuditPage, AuditAdd, AuditList, AuditDetail } from '../modules/audit'
 
 const publicRoutes = [
   { path: '/login', component: <LoginPage /> },
@@ -26,8 +31,25 @@ const privateRoutes = [
   { path: '/operators/addOperator', component: <OperatorAdd /> },
   { path: '/operators/listOperators', component: <OperatorList /> },
   { path: '/operators/operatorDetail/:operatorId', component: <OperatorDetail/> },
+
+  { path: '/audits', component: <AuditPage /> },
+  { path: '/audit/addAudit', component: <AuditAdd /> },
+  { path: '/audit/listAudits', component: <AuditList /> },
+  { path: '/audit/auditDetail/:auditId', component: <AuditDetail/> },
+
+  { path: '/params', component: <CompanyTypes /> },
+
+  { path: '/admin', component: <AdminRegister /> },
+
+  { path: '/CheckListsViewInspectionCategories', component: <CheckListsViewInspectionCategories /> },
+  { path: '/ChecklistAdd', component: <ChecklistAdd /> },
+
+  { path: '/protocols', component: <ProtocolEvaluation /> }, 
+  { path: '/protocols/:id', component: <ProtocolEvaluation /> },
+  { path: '/protocols/listProtocols', component: <ProtocolsList /> },  
+
   
-  { path: "/", exact: true, component: <Navigate to="/home" /> }
+  { path: "/", component: <Navigate to="/home" /> }
 ]
 
 export { publicRoutes, privateRoutes }
