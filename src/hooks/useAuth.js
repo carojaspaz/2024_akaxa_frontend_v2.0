@@ -6,7 +6,6 @@ import { jwtDecode } from 'jwt-decode'
 
 import AuthContext from '../contexts/AuthContext'
 import { loginService } from '../services/authService'
-import { auth } from '../_mock/account'
 
 const useAuth = () => {
   const { authState, login, logout } = useContext(AuthContext)
@@ -15,8 +14,7 @@ const useAuth = () => {
   const handleLogin = async (username, password) => {
     setError(null)
     try {
-      //const data = await loginService(username, password)
-      const data = auth
+      const data = await loginService.login({ email: username, password: password })
       const decodedToken = jwtDecode(data.token)
       const currentTime = Date.now() / 1000
       if (decodedToken.exp < currentTime) {

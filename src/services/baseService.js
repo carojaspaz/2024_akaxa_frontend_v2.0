@@ -1,8 +1,7 @@
 /** @format */
 
 const authData = JSON.parse(sessionStorage.getItem('auth'))
-//const token = authData.token;
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVydXNlckBzYWZldHludHJ1c3QuY29tIiwidXNlcm5hbWUiOiJtYXN0ZXIiLCJyb2xlIjoiU3VwZXJBZG1pbiIsImV4cGlyYXRpb24iOiIyMDI1LTAyLTA3VDA0OjU5OjU5Ljk5OVoiLCJpYXQiOjE3MzYyOTM5MTJ9.ZFn4LE3Qwe3kU0NEUORErcbmRilaVltaWJ0jckDecu4';
+const token = authData.token;
 
 class BaseService {
   constructor() {
@@ -66,6 +65,19 @@ class BaseService {
         'Content-Type': 'application/json',
         'Accept-Language': this.language,
         Authorization: `${token}`
+      },
+      body: body,
+    }
+    return options
+  }
+
+  optionsSimplePost = (body) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Accept-Language': this.language
       },
       body: body,
     }
