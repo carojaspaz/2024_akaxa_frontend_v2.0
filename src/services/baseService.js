@@ -1,7 +1,7 @@
 /** @format */
 
-const authData = JSON.parse(sessionStorage.getItem('auth'))
-const token = authData.token;
+const authData = JSON.parse(sessionStorage.getItem('auth')) || {};
+const token = authData.token || '';
 
 class BaseService {
   constructor() {

@@ -1,108 +1,27 @@
 /** @format */
-
 import React, { useState, useEffect } from 'react'
-import { Button, Container, Grid, Typography, Paper, Modal, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
-import VisibilityIcon from '@mui/icons-material/Visibility'
-import EditIcon from '@mui/icons-material/Edit'
+import { TextField, Button, Grid, MenuItem, Container, Typography, Table, TableHead, TableBody, TableRow, TableCell, TableContainer, Paper} from '@mui/material'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { Modal, ModalHeader, ModalBody } from 'reactstrap'
+import { ToasterTypes } from '../../helpers/config/constants'
+import useToaster from '../../helpers/common/toaster'
+import { useTranslation } from 'react-i18next'
 
 // Services
 import { inspectionService } from '../../services/inspectionService'
-import { ToasterTypes } from '../../helpers/config/constants'
-import useToaster from '../../helpers/common/toaster'
 
 // Custom component
 import BusinessSectorSelector from '../../components/common/BusinessSectorSelector/BusinessSectorSelector'
 
+
 const ChecklistAdd = () => {
-  const { showToaster } = useToaster()
-  const [code, setCode] = useState(null) // Use null for better validation
+  const { t } = useTranslation()
+  const toaster = useToaster()
+  const [code, setCode] = useState({})
   const [categories, setCategories] = useState([])
+  const [category, setCategory] = useState({})
   const [rows, setRows] = useState([])
-  const [category, setCategory] = useState(null) // Use null for better validation
   const [modal, setModal] = useState(false)
-
-  // Fetch categories based on the selected code
-  const activitiesChangeHandler = async (selectedCode) => {
-    try {
-      const response = await inspectionService.getCategories(JSON.stringify(selectedCode))
-      if (response) {
-        const { message, categories } = response
-        if (message) {
-          setCategories([])
-          setCategory(null)
-          setRows([])
-          setModal(false)
-          showToaster(message, 'Info', 'info')
-        } else {
-          let newRows = categories.map((i) => ({
-            subject: i.subject,
-            sector: i.sector,
-            division: i.division,
-            subdivision: i.subdivision,
-            activity: i.activity,
-            activityName: i.activityName,
-            evaluationType: i.evaluationType,
-            handleDetails: (
-              <Button
-                type="button"
-                onClick={() => {
-                  viewCategory(i.id)
-                }}>
-                <VisibilityIcon />
-              </Button>
-            ),
-          }))
-          setCode(selectedCode)
-          setCategories(categories)
-          setRows(newRows)
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching categories:', error)
-      showToaster('Error al cargar categorías', 'Error', ToasterTypes.Error)
-    }
-  }
-
-  // Reset form and state
-  const resetDataHandler = () => {
-    setCode(null) // Use null instead of empty object for better validation
-    setCategories([])
-    setCategory(null) // Use null instead of empty object
-    setRows([])
-    setModal(false)
-  }
-
-  // Handle form submission
-  const handleValidSubmit = async (values) => {
-    const body = JSON.stringify(values)
-    const response = await inspectionService.postCategory(body)
-    if (response) {
-      const { message } = response
-      if (message) {
-        showToaster(message, 'Error', ToasterTypes.Error)
-      } else {
-        showToaster('Categoría creada satisfactoriamente!', 'Categoría', ToasterTypes.Success)
-        activitiesChangeHandler(code)
-        resetDataHandler() // Clear form values
-      }
-    }
-  }
-
-  // View category details in modal
-  const viewCategory = async (id) => {
-    const selectedCategory = categories.find((c) => c.id === id)
-    if (selectedCategory) {
-      setCategory(selectedCategory)
-      toggleModal()
-    } else {
-      showToaster('Categoria no encontrada', 'Error', ToasterTypes.Error)
-    }
-  }
-
-  // Toggle modal visibility
-  const toggleModal = () => {
-    setModal(!modal)
-  }
 
   const data = {
     columns: [
@@ -113,127 +32,180 @@ const ChecklistAdd = () => {
       { label: 'Actividad', field: 'activity', sort: 'asc' },
       { label: 'Nombre', field: 'activityName', sort: 'asc' },
       { label: 'Tipo Evaluación', field: 'evaluationType', sort: 'asc' },
+      { label: 'Tipo de Auditoria', field: 'auditType', sort: 'asc' },
       { label: 'Detalles', field: 'handleDetails', sort: 'asc' },
     ],
-    rows,
+    rows: rows,
+  }
+
+  const activitiesChangeHandler = async (code) => {
+    const categories = await inspectionService.getCategories(JSON.stringify(code))
+    if (categories) {
+      const { message } = categories
+      if (message) {
+        setCategories([])
+        setCategory({})
+        setRows([])
+        setModal(false)
+        showToaster(message, 'Info', ToasterTypes.Info)
+      } else {
+        const rows = categories.map((i) => ({
+          subject: i.subject,
+          sector: i.sector,
+          division: i.division,
+          subdivision: i.subdivision,
+          activity: i.activity,
+          activityName: i.activityName,
+          evaluationType: i.evaluationType,
+          auditType: i.auditType,
+          handleDetails: (
+            <Button
+              type="button"
+              onClick={() => viewCategory(i.id)}
+            >
+              <i className="mdi mdi-card-account-details mr-1"></i>
+            </Button>
+          ),
+        }))
+        setCode(code)
+        setCategories(categories)
+        setRows(rows)
+      }
+    }
+  }
+
+  const resetDataHandler = () => {
+    setCode({})
+    setCategories([])
+    setCategory({})
+    setRows([])
+  }
+
+  const handleValidSubmit = async (values, { resetForm }) => {
+    const body = JSON.stringify(values)
+    const response = await inspectionService.postCategory(body)
+    if (response) {
+      const { message } = response
+      if (message) {
+        showToaster('Error', message, ToasterTypes.Error)
+      } else {
+        showToaster('Categoría', 'Categoría creada satisfactoriamente!', ToasterTypes.Success)
+        activitiesChangeHandler(code)
+        resetForm()
+      }
+    }
+  }
+
+  const viewCategory = (id) => {
+    const response = categories.find((c) => c.id === id)
+    if (response) {
+      setCategory(response)
+      toggleModal()
+    } else {
+      showToaster('Error', 'Categoría no encontrada', ToasterTypes.Error)
+    }
+  }
+
+  const toggleModal = () => {
+    setModal((prevModal) => !prevModal)
   }
 
   return (
-    <React.Fragment>
-      <div className="page-content">
-        <Container fluid>
-          <Typography variant="h4" gutterBottom>
-            Crear Categoría
-          </Typography>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Paper>
-                <div className="bg-soft-secondary">
-                  <Typography variant="h6">Seleccione la actividad económica</Typography>
-                  <Grid container spacing={2}>
-                    <Grid item sm={8}>
-                      <TextField label="Seleccione la actividad" variant="outlined" fullWidth required />
-                    </Grid>
-                    <Grid item sm={4}>
-                      <TextField label="Seleccionar código" variant="outlined" fullWidth required />
-                    </Grid>
+    <Container fluid>
+      <Typography variant="h4">Registrar Categoría</Typography>
+      <hr />
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Formik
+            initialValues={{ subject: '', evaluationType: '', description: '' }}
+            onSubmit={handleValidSubmit}
+          >
+            {({ handleSubmit, resetForm }) => (
+              <Form onSubmit={handleSubmit}>
+                <BusinessSectorSelector newCode isCategory onChange={activitiesChangeHandler} onReset={resetDataHandler} />
+
+                <h3>{t('Información de la categoría')}</h3>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Field as={TextField} fullWidth name="subject" label={t('Nombre de la Categoría')} required />
+                    <ErrorMessage name="subject" component="div" />
                   </Grid>
-                  <br />
-                  <Grid container spacing={2}>
-                    <Grid item sm={6}>
-                      <TextField label="Seleccione Sector" variant="outlined" fullWidth required />
-                    </Grid>
-                    <Grid item sm={6}>
-                      <TextField label="Seleccione División" variant="outlined" fullWidth required />
-                    </Grid>
-                    <Grid item sm={6}>
-                      <TextField label="Seleccione Subdivisión" variant="outlined" fullWidth required />
-                    </Grid>
-                    <Grid item sm={6}>
-                      <TextField label="Seleccione Actividad" variant="outlined" fullWidth required />
-                    </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Field as={TextField} select fullWidth name="evaluationType" label={t('Riesgo Evaluado')} required>
+                      <MenuItem value="">{t('Selecciona')}</MenuItem>
+                      <MenuItem value="vulnerability">{t('Vulnerabilidad')}</MenuItem>
+                      <MenuItem value="efficacy">{t('Eficacia')}</MenuItem>
+                    </Field>
+                    <ErrorMessage name="evaluationType" component="div" />
                   </Grid>
-                  {/*<BusinessSectorSelector
-                    newCode
-                    isCategory
-                    onChange={activitiesChangeHandler}
-                    onReset={resetDataHandler}
-                  />*/}
-                  <Typography variant="h6">Información de la categoría</Typography>
-                  <Grid container spacing={2}>
-                    <Grid item sm={8}>
-                      <TextField label="Nombre de categoria" variant="outlined" fullWidth required />
-                    </Grid>
-                    <Grid item sm={4}>
-                      <TextField label="Riesgo Evaluado" variant="outlined" select fullWidth required SelectProps={{ native: true }}>
-                        <option value="vulnerability">Análisis de Vulnerabilidad</option>
-                        <option value="efficacy">Análisis de Eficacia</option>
-                      </TextField>
-                    </Grid>
-                    <Grid item sm={12}>
-                      <TextField label="Descripción" variant="outlined" fullWidth multiline rows={4} />
-                    </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Field as={TextField} select fullWidth name="auditType" label={t('Tipo de Auditoría')} required>
+                      <MenuItem value="">{t('Selecciona')}</MenuItem>
+                      <MenuItem value="company">{t('Empresa')}</MenuItem>
+                      <MenuItem value="process">{t('Proceso')}</MenuItem>
+                      <MenuItem value="place">{t('Lugar')}</MenuItem>
+                      <MenuItem value="activities">{t('Actividades')}</MenuItem>
+                      <MenuItem value="machinery">{t('Maquinaria')}</MenuItem>
+                    </Field>
+                    <ErrorMessage name="auditType" component="div" />
                   </Grid>
-                  <br />
-                  <Grid item sm={12}>
-                      <TextField label="Tipo de auditoria" variant="outlined" select fullWidth required SelectProps={{ native: true }}>
-                        <option >Auditar Empresa</option>
-                        <option >Auditar Procesos</option>
-                        <option >Auditar Actividades</option>
-                        <option >Auditar Maquinaria o Equipo</option>
-                      </TextField>
-                    </Grid> 
-                    <br />
-                  <Typography variant="h6">Análisis de Criticidad</Typography>
-                  <br />
-                  <Grid container spacing={2}>
-                    <Grid item sm={6}>
-                      <TextField label="Condición" variant="outlined" select fullWidth required SelectProps={{ native: true }}>
-                        <option>Critico</option>
-                        <option>No critico</option>
-                      </TextField>
-                    </Grid>
-                    <Grid item sm={6}>
-                      <TextField label="Comportamiento" variant="outlined" select fullWidth required SelectProps={{ native: true }}>
-                        <option>Critico</option>
-                        <option>No critico</option>
-                      </TextField>
-                    </Grid>
-                  </Grid>
-                  <br />
-                  <Grid container spacing={2}>
-                    <Grid item sm={3}>
-                      <Button color="primary" fullWidth variant="contained" onClick={handleValidSubmit}>
-                        Crear Categoría
-                      </Button>
-                    </Grid>
-                    <Grid item sm={3}>
-                      <Button color="secondary" fullWidth variant="contained" onClick={resetDataHandler}>
-                        Limpiar Formulario
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </div>
-                <hr />
-                <Grid container justifyContent="flex-end">
-                  <Typography>Total Categorías: {categories.length}</Typography>
                 </Grid>
-              </Paper>
-            </Grid>
-          </Grid>
-        </Container>
-      </div>
-      <Modal open={modal} onClose={toggleModal}>
-        <div className="modal-content">
-          <Typography variant="h6">{category?.subject}</Typography>
-          <Typography>Descripción: {category?.description}</Typography>
-          <Typography>Tipo Evaluación: {category?.evaluationType}</Typography>
-          <Button color="primary" fullWidth onClick={toggleModal}>
-            Cerrar
-          </Button>
-        </div>
+                <br />
+                <Grid container spacing={2}>
+                  <Grid item sm={12}>
+                    <Field as={TextField} fullWidth multiline rows={3} name="Description" label={t('Descripción')} />
+                  </Grid>
+                </Grid>
+                <br />
+                <Grid container spacing={2}>
+                  <Grid item sm={3}>
+                    <Button type="submit" variant="contained" color="primary">
+                      {t('Crear Categoria')}
+                    </Button>
+                  </Grid>
+                  <Grid item sm={3} sx={{ marginLeft: 'auto' }}>
+                    <Button type="button" variant="contained" color="secondary" onClick={() => resetForm()}>
+                      {t('Limpiar Formualrio')}
+                    </Button>
+                  </Grid>
+                </Grid>
+                <br />
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        {data.columns.map((col) => (
+                          <TableCell key={col.field}>{col.label}</TableCell>
+                        ))}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {data.rows.map((row, index) => (
+                        <TableRow key={index}>
+                          {data.columns.map((col) => (
+                            <TableCell key={col.field}>{row[col.field]}</TableCell>
+                          ))}
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Form>
+            )}
+          </Formik>
+        </Grid>
+      </Grid>
+
+      <Modal isOpen={modal} toggle={toggleModal} centered>
+        <ModalHeader className="bg-primary" toggle={toggleModal}>
+          {category.subject}
+        </ModalHeader>
+        <ModalBody>
+          <p>{`Descripción: ${category.description || ''}`}</p>
+          <p>{`Tipo Evaluación: ${t(category.evaluationType || '')}`}</p>
+        </ModalBody>
       </Modal>
-    </React.Fragment>
+    </Container>
   )
 }
 

@@ -25,11 +25,7 @@ const navConfig = [
     path: '/operators',
     icon: icon('ic_cart'),
   },
-  {
-    title: 'Audits',
-    path: '/audits',
-    icon: icon('ic_user'),
-  },
+
   {
     title: 'inspection',
     path: '/CheckListsViewInspectionCategories',
@@ -44,6 +40,11 @@ const navConfig = [
    title: 'Evaluations',
     path: '/protocols',
     icon: icon('ic_blog'),
+  },
+  {
+    title: 'Audits',
+    path: '/audits',
+    icon: icon('ic_user'),
   },
   
   

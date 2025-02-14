@@ -44,7 +44,7 @@ const CheckListsViewInspectionCategories = () => {
         setRows([]);
         setCategory(null);
         setModalOpen(false);
-        alert(message); // Replace this with your toaster if required
+        alert(message); 
       } else {
         const rows = response.map((item) => ({
           id: item.id,
@@ -53,7 +53,7 @@ const CheckListsViewInspectionCategories = () => {
           activityName: item.activityName,
           description: item.description,
           evaluationType: item.evaluationType,
-          auditType: getAuditType(item.activity),  // Adding the auditType field
+          auditType: getAuditType(item.activity), 
         }));
         setCode(code);
         setCategories(response);
@@ -63,7 +63,6 @@ const CheckListsViewInspectionCategories = () => {
   };
 
   const getAuditType = (activity) => {
-    // Example logic to determine the audit type
     switch (activity) {
       case 'empresa':
         return 'Auditar Empresa';
@@ -74,7 +73,7 @@ const CheckListsViewInspectionCategories = () => {
       case 'maquinaria':
         return 'Auditar Maquinaria o Equipo';
       default:
-        return 'No Definido';  // Default case if no match is found
+        return 'No Definido';  
     }
   };
 
@@ -92,7 +91,7 @@ const CheckListsViewInspectionCategories = () => {
       setCategory(selectedCategory);
       setModalOpen(true);
     } else {
-      alert('Error: Categoria no encontrada'); // Replace this with your toaster if required
+      alert('Error: Categoria no encontrada'); 
     }
   };
 
@@ -107,10 +106,19 @@ const CheckListsViewInspectionCategories = () => {
 
   return (
     <Container>
-      <Typography variant="h4" gutterBottom>
-        Lista de Categorias
-      </Typography>
-
+      <Grid container alignItems="center" justifyContent="space-between">
+        <Grid item>
+          <Typography variant="h4" gutterBottom>
+            Lista de Categorías
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Link to="/ChecklistAdd">
+            <Button variant="contained">Registrar Categoría</Button>
+          </Link>
+        </Grid>
+      </Grid>
+      <br />
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Paper>
@@ -123,7 +131,7 @@ const CheckListsViewInspectionCategories = () => {
                     <TableCell>Nombre</TableCell>
                     <TableCell>Descripción</TableCell>
                     <TableCell>Tipo Evaluación</TableCell>
-                    <TableCell>Tipo de Auditoría</TableCell> {/* New column for Audit Type */}
+                    <TableCell>Tipo de Auditoría</TableCell> 
                     <TableCell>Acciones</TableCell>
                   </TableRow>
                 </TableHead>
@@ -137,7 +145,7 @@ const CheckListsViewInspectionCategories = () => {
                         <TableCell>{row.activityName}</TableCell>
                         <TableCell>{row.description}</TableCell>
                         <TableCell>{row.evaluationType}</TableCell>
-                        <TableCell>{row.auditType}</TableCell> {/* Displaying the audit type */}
+                        <TableCell>{row.auditType}</TableCell> 
                         <TableCell>
                           <Button
                             color="primary"
@@ -174,7 +182,7 @@ const CheckListsViewInspectionCategories = () => {
           <Typography variant="h6">{category.subject}</Typography>
           <Typography>Descripción: {category.description}</Typography>
           <Typography>Tipo Evaluación: {category.evaluationType}</Typography>
-          <Typography>Tipo de Auditoría: {category.auditType}</Typography> {/* Showing audit type in modal */}
+          <Typography>Tipo de Auditoría: {category.auditType}</Typography> 
           <Button onClick={() => setModalOpen(false)}>Cerrar</Button>
         </div>
       )}
