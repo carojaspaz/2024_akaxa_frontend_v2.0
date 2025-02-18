@@ -1,11 +1,12 @@
 /** @format */
 import React, { useState, useEffect } from 'react'
-import { TextField, Button, Grid, MenuItem, Container, Typography, Table, TableHead, TableBody, TableRow, TableCell, TableContainer, Paper} from '@mui/material'
+import { TextField, Button, Grid, MenuItem, Container, Typography, Table, TableHead, TableBody, TableRow, TableCell, TableContainer, Paper } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { Modal, ModalHeader, ModalBody } from 'reactstrap'
 import { ToasterTypes } from '../../helpers/config/constants'
 import useToaster from '../../helpers/common/toaster'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom';
 
 // Services
 import { inspectionService } from '../../services/inspectionService'
@@ -16,12 +17,14 @@ import BusinessSectorSelector from '../../components/common/BusinessSectorSelect
 
 const ChecklistAdd = () => {
   const { t } = useTranslation()
-  const toaster = useToaster()
+  const { showToaster } = useToaster()
   const [code, setCode] = useState({})
   const [categories, setCategories] = useState([])
   const [category, setCategory] = useState({})
   const [rows, setRows] = useState([])
   const [modal, setModal] = useState(false)
+  const [newCode, setNewCode] = useState("");
+  const [isCategory, setIsCategory] = useState(false);
 
   const data = {
     columns: [
@@ -57,6 +60,7 @@ const ChecklistAdd = () => {
           activity: i.activity,
           activityName: i.activityName,
           evaluationType: i.evaluationType,
+          description: i.description,
           auditType: i.auditType,
           handleDetails: (
             <Button
@@ -111,18 +115,39 @@ const ChecklistAdd = () => {
   }
 
   return (
-    <Container fluid>
-      <Typography variant="h4">Registrar Categoría</Typography>
+    <Container fluid="true">
+      <br/>
+       <Grid container alignItems="center" justifyContent="space-between" spacing={2}>
+      <Grid>
+        <Typography variant="h4">Registrar Categoría</Typography>
+      </Grid>
+      <Grid>
+        <Link to="/CheckListsAddItems">
+          <Button variant="contained">Registrar Item</Button>
+        </Link>
+      </Grid >
+    </Grid>
+    <br/>
       <hr />
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Formik
-            initialValues={{ subject: '', evaluationType: '', description: '' }}
+            initialValues={{
+              subject: '',
+              evaluationType: '',
+              auditType: '',
+            }}
             onSubmit={handleValidSubmit}
           >
             {({ handleSubmit, resetForm }) => (
               <Form onSubmit={handleSubmit}>
-                <BusinessSectorSelector newCode isCategory onChange={activitiesChangeHandler} onReset={resetDataHandler} />
+                <BusinessSectorSelector
+                  newCode={newCode || ""}
+                  isCategory={isCategory}
+                  onChange={activitiesChangeHandler}
+                  onReset={resetDataHandler}
+                />
+
 
                 <h3>{t('Información de la categoría')}</h3>
                 <Grid container spacing={2}>

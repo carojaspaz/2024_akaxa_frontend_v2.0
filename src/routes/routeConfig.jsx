@@ -9,7 +9,7 @@ import { NotFoundPage } from '../modules/common'
 import { OperatorPage, OperatorAdd, OperatorList, OperatorDetail } from '../modules/operator'
 import { CompanyTypes} from '../modules/params'
 import { AdminRegister} from '../modules/admin'
-import { CheckListsViewInspectionCategories, ChecklistAdd } from '../modules/checklist'
+import { CheckListsViewInspectionCategories, ChecklistAdd, CheckListsAddItems } from '../modules/checklist'
 import { ProtocolEvaluation, ProtocolsList} from '../modules/protocols'
 import { AuditPage, AuditAdd, AuditList, AuditDetail } from '../modules/audit'
 
@@ -43,6 +43,7 @@ const privateRoutes = [
 
   { path: '/CheckListsViewInspectionCategories', component: <CheckListsViewInspectionCategories /> },
   { path: '/ChecklistAdd', component: <ChecklistAdd /> },
+  { path: '/CheckListsAddItems', component: <CheckListsAddItems /> },
 
   { path: '/protocols', component: <ProtocolEvaluation /> }, 
   { path: '/protocols/:id', component: <ProtocolEvaluation /> },
