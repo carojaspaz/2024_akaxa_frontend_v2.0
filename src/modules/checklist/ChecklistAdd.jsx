@@ -8,10 +8,8 @@ import useToaster from '../../helpers/common/toaster'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom';
 
-// Services
 import { inspectionService } from '../../services/inspectionService'
 
-// Custom component
 import BusinessSectorSelector from '../../components/common/BusinessSectorSelector/BusinessSectorSelector'
 
 
@@ -86,20 +84,22 @@ const ChecklistAdd = () => {
   }
 
   const handleValidSubmit = async (values, { resetForm }) => {
-    const body = JSON.stringify(values)
-    const response = await inspectionService.postCategory(body)
-    if (response) {
-      const { message } = response
-      if (message) {
-        showToaster('Error', message, ToasterTypes.Error)
+    try {
+      const response = await inspectionService.postCategory(values); 
+  
+      if (response?.message) {
+        showToaster('Error', response.message, ToasterTypes.Error);
       } else {
-        showToaster('Categoría', 'Categoría creada satisfactoriamente!', ToasterTypes.Success)
-        activitiesChangeHandler(code)
-        resetForm()
+        showToaster('Categoría', 'Categoría creada satisfactoriamente!', ToasterTypes.Success);
+        activitiesChangeHandler(code);
+        resetForm();
       }
+    } catch (error) {
+      console.error("Error en la solicitud:", error.response?.data || error.message);
+      showToaster('Error', error.response?.data?.message || "Ocurrió un error inesperado", ToasterTypes.Error);
     }
-  }
-
+  };
+  
   const viewCategory = (id) => {
     const response = categories.find((c) => c.id === id)
     if (response) {

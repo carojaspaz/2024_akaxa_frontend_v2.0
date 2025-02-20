@@ -8,7 +8,7 @@ class ItemService extends BaseService {
   }
   getCategory = async (body) => {
     const response = await fetch(
-      `${this.urlBase}inspectionCategory/`,this.optionsGetBody(body))
+      `${this.urlBase}/inspectionCategory/`,this.optionsGetBody(body))
       .then((response) => {
           console.log(response);
         return response.json();
@@ -23,7 +23,7 @@ class ItemService extends BaseService {
   };
 
   getAllItems = async()=>{
-    const response = await fetch(`${this.urlBase}inspectionCategory/getAll/items/`, this.optionsGet())
+    const response = await fetch(`${this.urlBase}/inspectionCategory/getAll/items/`, this.optionsGet())
       .then((response) => {
         return response.json();
       })
@@ -37,7 +37,7 @@ class ItemService extends BaseService {
   }
 
   getItemsByCategoryId = async (id) => {
-    const response = await fetch(`${this.urlBase}inspectionCategory/items/${id}`, this.optionsGet())
+    const response = await fetch(`${this.urlBase}/inspectionCategory/items/${id}`, this.optionsGet())
     .then((response) => {
       return response.json();
     })
@@ -50,8 +50,9 @@ class ItemService extends BaseService {
   return response;
   };
   postItem = async (body) => {
+    console.log("Datos enviados al backend:", body);
     const response = await fetch(
-      `${this.urlBase}inspectionCategory/item/`,
+      `${this.urlBase}/inspectionCategory/item/`,
       this.optionsPost(body)
     )
       .then((response) => {

@@ -6,13 +6,11 @@ import { ToasterTypes } from '../../helpers/config/constants'
 import useToaster from '../../helpers/common/toaster'
 import { useTranslation } from 'react-i18next'
 
-// Servicios
 import { categoryService } from '../../services/categoryService.js'
 import { commonService } from '../../services/commonService.js'
 import { itemService } from '../../services/itemService.js'
 import { inspectionService } from '../../services/inspectionService'
 
-// Componente personalizado
 import BusinessSectorSelector from '../../components/common/BusinessSectorSelector/BusinessSectorSelector'
 
 
@@ -30,7 +28,7 @@ const CheckListsAddItems = () => {
     const { showToaster } = useToaster()
 
     useEffect(() => {
-        loadRiskConditions(); 
+        loadRiskConditions();
         loadCategories();
     }, [])
 
@@ -55,12 +53,11 @@ const CheckListsAddItems = () => {
         }
     }
 
-    // Cargar items por categoría
     const loadItemsList = async (id) => {
         const response = await itemService.getItemsByCategoryId(id)
         if (response) {
             const newRows = response.map((i) => ({
-                conditionRisk: i.conditionRisk,
+                conditionRisk: i.conditionRisk,    
                 subject: i.subject,
                 item: i.item,
                 inspectorCategory: i.inspectorCategory,
@@ -130,6 +127,8 @@ const CheckListsAddItems = () => {
                 subject: values.subject,
                 activities: activities,
                 idConditionRisk: values.idConditionRisk,
+                idConditionRiskBehavior: values.idConditionRiskBehavior,
+                
             })
             const response = await itemService.postItem(body)
             if (response?.message) {
@@ -147,19 +146,20 @@ const CheckListsAddItems = () => {
                 item: '',
                 subject: '',
                 idConditionRisk: '',
+                idConditionRiskBehavior: '',
             }}
             onSubmit={handleValidSubmit}
         >
             {({ setFieldValue, values }) => (
                 <Form>
-                    <Container fluid>
+                    <Container fluid="true">
                         <Typography title="Agregar Items" />
                         <Grid container spacing={3}>
                             <Grid item xs={12}>
                                 <Paper>
-                                    <br/>
+                                    <br />
                                     <Typography variant="h4">{t('Seleccione la actividad económica')}</Typography>
-                                    <br/>
+                                    <br />
                                     <hr />
                                     <BusinessSectorSelector
                                         newCode
@@ -167,6 +167,7 @@ const CheckListsAddItems = () => {
                                         onChange={activitiesChangeHandler}
                                         onReset={resetDataHandler}
                                     />
+                                    <br />
                                     <Grid container spacing={2}>
                                         <Grid item xs={12}>
                                             <TextField
@@ -196,7 +197,7 @@ const CheckListsAddItems = () => {
                                             <Typography>{`${t('División')}: ${t(catSector.division)}`}</Typography>
                                         </Grid>
 
-                                        <Grid item xs={6}>
+                                        <Grid item xs={12}>
                                             <TextField
                                                 fullWidth
                                                 label={t('Tema General')}
@@ -219,6 +220,27 @@ const CheckListsAddItems = () => {
                                                 }}
                                                 required
                                                 value={values.idConditionRisk}
+                                            >
+                                                <MenuItem value="noSelected">{t('Seleccione...')}</MenuItem>
+                                                {conditions.map((item, i) => (
+                                                    <MenuItem key={i} value={item.id}>
+                                                        {t(item.risk)}
+                                                    </MenuItem>
+                                                ))}
+                                            </TextField>
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <TextField
+                                                select
+                                                fullWidth
+                                                label={t('Comportamiento de riesgo')}
+                                                name="idConditionRiskBehavior"
+                                                onChange={e => {
+                                                    setFieldValue('idConditionRiskBehavior', e.target.value);
+                                                    onChangeSelectRiskBehavior(e);
+                                                }}
+                                                required
+                                                value={values.idConditionRiskBehavior}
                                             >
                                                 <MenuItem value="noSelected">{t('Seleccione...')}</MenuItem>
                                                 {conditions.map((item, i) => (

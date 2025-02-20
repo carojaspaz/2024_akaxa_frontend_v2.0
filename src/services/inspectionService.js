@@ -129,6 +129,7 @@ class InspectionService extends BaseService {
   }
 
   postCategory = async (category) => {
+    console.log("Datos enviados al backend:", category);
     const response = await fetch(`${Config.urlBase}/inspectionCategory/`, this.optionsPost(category))
       .then((response) => {
         return response.json()
