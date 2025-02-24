@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { TextField, Button, Grid, Container, Typography, Table, TableBody, TableRow, TableCell, TableHead, Card, CardContent, IconButton } from '@mui/material'
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'
 import { Edit, Visibility } from '@mui/icons-material'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 
@@ -35,10 +36,10 @@ const ProtocolsList = () => {
             <Grid item xs={8}>
               <TextField fullWidth variant="outlined" label="Buscar por Código" size="small" />
             </Grid>
-            <Grid item xs={4} style={{ textAlign: 'right' }}>
-              <Button variant="contained" color="primary" size="large">
-                Crear Lista de Chequeo
-              </Button>
+            <Grid item xs={4} alignContent={'center'}>
+              <Link to="/protocols">
+                <Button variant="contained"> Crear Lista de Chequeo</Button>
+              </Link>
             </Grid>
           </Grid>
         </CardContent>

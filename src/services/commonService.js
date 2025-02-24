@@ -221,6 +221,22 @@ class CommonService extends BaseService {
       return null;
     }
   }
+
+  async getTypeList() {
+    try {
+      const response = await fetch(`${Config.urlBase}/checklist/typesList/`, this.optionsGet());
+  
+      if (!response.ok) {
+        throw new Error(`HTTP Error status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error al obtener las Listas de Chequeo:", error);
+      return null;
+    }
+  }
   
 }
 

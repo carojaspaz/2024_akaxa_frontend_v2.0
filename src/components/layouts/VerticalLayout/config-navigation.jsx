@@ -31,15 +31,15 @@ const navConfig = [
     path: '/CheckListsViewInspectionCategories',
     icon: icon('ic_analytics'),
    },
+   {
+    title: 'Checklists',
+     path: '/protocols/listProtocols',
+     icon: icon('ic_blog'),
+   },
   {
     title: 'Parameters',
     path: '/params',
     icon: icon('ic_cart'),
-  },
-  {
-   title: 'Evaluations',
-    path: '/protocols',
-    icon: icon('ic_blog'),
   },
   {
     title: 'Audits',
