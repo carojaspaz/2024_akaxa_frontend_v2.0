@@ -1,0 +1,17 @@
+{
+  "login": {
+    "title": "Login Page",
+    "email": "Email",
+    "password": "Password",
+    "loginButton": "Login",
+    "logoutButton": "Logout"
+  },
+  "layout":{
+    "home": "Home",
+    "search": "Search..."
+  },
+  "home":{
+    "welcome": "Welcome",
+    "profile": "View profile"
+  }
+}
